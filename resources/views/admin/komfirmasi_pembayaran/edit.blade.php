@@ -32,7 +32,7 @@
                   <div class="form-group">
                     <label for="nomor_rekening_pengirim">Bukti Pembayaran</label>
                     <br>
-                    <img src="../../{{$edit->bukti_pembayaran}}" width="20%">
+                    <img src="../../../../{{$edit->bukti_pembayaran}}" width="20%">
                   </div>
                   
                   <div class="form-group">

@@ -19,15 +19,15 @@ class Booking extends Model
         return $this->belongsTo(Service::class, 'id_service');
     }
 
-    // public function category()
-    // {
-    //     return $this->belongsTo(CategoryService::class, 'id_category');
-    // }
+    public function pelayanan()
+{
+    return $this->belongsTo(Service::class);
+}
 
-    // public function doctor()
-    // {
-    //     return $this->belongsTo(Doctor::class, 'id_doctor');
-    // }
+public function komfirmasiPembayarans()
+{
+    return $this->hasMany(KomfirmasiPembayaran::class);
+}
 
     public function tarif()
     {

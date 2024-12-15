@@ -35,9 +35,14 @@
         <div class="card bg-gradient-info card-img-holder text-white">
           <div class="card-body">
             <img src="{{asset('assets/admin/assets/images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
-            <h4 class="font-weight-normal mb-3">Jumlah Terapis<i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+            <h4 class="font-weight-normal mb-3">Pelayanan<i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
             </h4>
-            <h2 class="mb-5">{{$doctors_count}}</h2>
+
+            @foreach ($pelayanan_count as $pelayanan)
+    <p class="mb-5">{{ $pelayanan->pelayanan }} : {{ $pelayanan->count }}</p>
+@endforeach
+
+
             <h6 class="card-text">PAS</h6>
           </div>
         </div>
@@ -46,10 +51,10 @@
         <div class="card bg-gradient-success card-img-holder text-white">
           <div class="card-body">
             <img src="{{asset('assets/admin/assets/images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
-            <h4 class="font-weight-normal mb-3">Pelayanan Favorit <i class="mdi mdi-diamond mdi-24px float-right"></i>
+            <h4 class="font-weight-normal mb-3">Total Biaya Pendaftaran <i class="mdi mdi-diamond mdi-24px float-right"></i>
             </h4>
-            <h2 class="mb-5">{{max($data)}}</h2>
-            <h6 class="card-text">Increased by 5%</h6>
+            <h2 class="mb-5">Rp {{ number_format($total_nominal, 0, ',', '.') }}</h2>
+            <h6 class="card-text">PAS</h6>
           </div>
         </div>
       </div>

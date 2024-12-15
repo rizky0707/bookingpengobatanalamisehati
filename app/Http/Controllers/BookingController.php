@@ -11,6 +11,8 @@ use App\Models\Setting;
 use App\Models\Tarif;
 use App\Models\User;
 use App\Models\KomfirmasiPembayaran;
+use App\Models\RawatJalanDiagnosa;
+use App\Models\RawatJalan;
 use Auth;
 use DB;
 use Carbon\Carbon;
@@ -254,6 +256,26 @@ class BookingController extends Controller
 
         // dd($booking);
         $booking->save();
+
+         // Menyimpan data ke tabel rawat_jalan
+    $rawatJalan = new RawatJalan;
+    $rawatJalan->booking_id = $booking->id; // Relasi ke tabel booking
+    $rawatJalan->user_id = $booking->user_id; // Relasi ke pengguna
+    $rawatJalan->nama = $booking->nama;
+    $rawatJalan->nohp = $booking->nohp;
+    $rawatJalan->alamat = $booking->alamat;
+    $rawatJalan->pelayanan = $booking->pelayanan;
+    $rawatJalan->tanggal = $booking->tanggal;
+    $rawatJalan->jam = $booking->jam;
+    $rawatJalan->keluhan = $booking->keluhan;
+    $rawatJalan->save();
+
+    $rawatJalanDiagnosa = new RawatJalanDiagnosa;
+    $rawatJalanDiagnosa->booking_id = $booking->id; // Relasi ke tabel booking
+    $rawatJalanDiagnosa->user_id = $booking->user_id; // Relasi ke tabel booking
+    $rawatJalanDiagnosa->save();
+
+      
         return redirect()->route('showResult');
 
     }
@@ -401,8 +423,43 @@ class BookingController extends Controller
      */
     public function update(Request $request, Booking $booking)
     {
-        $booking->update($request->all());
-        return redirect()->route('booking.index')->with('success', 'Data Berhasil Di Update');
+         // Validasi input
+    // $this->validate($request, [
+    //     'nama' => 'required|min:2',
+    //     'nohp' => 'required|min:11',
+    //     'jam' => 'required',
+    //     'pelayanan' => 'required',
+    //     'tanggal' => 'required|date',
+    //     'alamat' => 'required|min:2',
+    //     'keluhan' => 'required|min:2',
+    // ]);
+
+    // Update data di tabel bookings
+    $booking->update($request->all());
+
+    // Update data di tabel rawat_jalan
+    $rawatJalan = RawatJalan::where('booking_id', $booking->id)->first();
+    
+
+    if ($rawatJalan) {
+        // Jika keluhan kosong, berikan nilai default
+        // $keluhan = $request->keluhan ?: 'No complaints provided'; // Nilai default jika kosong
+
+        // Perbarui data di rawat_jalan
+        $rawatJalan->update([
+            'nama' => $request->nama,
+            'nohp' => $request->nohp,
+            'jam' => $request->jam,
+            'pelayanan' => $request->pelayanan,
+            'alamat' => $request->alamat,
+            'tanggal' => $request->tanggal,
+            'status' => 'success', // Status berhasil diperbarui
+        ]);
+    }
+    
+
+    return redirect()->route('booking.index')->with('success', 'Data Berhasil Di Update');
+
     }
 
     public function updateOpr(Request $request, Booking $booking)

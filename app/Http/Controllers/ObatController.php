@@ -11,104 +11,92 @@ use Carbon\Carbon;
 class ObatController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Tampilkan daftar obat.
      */
     public function index()
     {
-        $obats = Obat::latest()->get();
+        $obat = Obat::all();
         $bookings_countApp = Booking::where('status', 'pending')->whereDate('tanggal', Carbon::today())->count();
         $pembayarans_countApp = KomfirmasiPembayaran::where('status', 'checking')->count();
-        // $obats = Obat::all();
-    foreach ($obats as $obat) {
-        $obat->expired_in_1_month = Carbon::parse($obat->expired)->diffInDays(Carbon::now()) <= 30;
-    }
-    
-        return view('admin.obat.index', compact('obats', 'bookings_countApp', 'pembayarans_countApp'));
+
+        return view('admin.obat.index', compact('obat', 'bookings_countApp', 'pembayarans_countApp'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Tampilkan formulir untuk menambahkan obat baru.
      */
     public function create()
     {
         $bookings_countApp = Booking::where('status', 'pending')->whereDate('tanggal', Carbon::today())->count();
         $pembayarans_countApp = KomfirmasiPembayaran::where('status', 'checking')->count();
-        return view('admin.obat.create', compact('bookings_countApp', 'pembayarans_countApp'));
 
+        return view('admin.obat.create', compact('bookings_countApp', 'pembayarans_countApp'));
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Simpan data obat baru.
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'nama_obat' => 'required|unique:obats|min:2',
-            'jumlah' => 'required|numeric',
-            'expired' => 'required|date',
+        $request->validate([
+            'nama_obat' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'stok' => 'required|integer|min:0',
+            'harga' => 'required|numeric|min:0',
         ]);
-        Obat::create($request->all());
-        return redirect()->route('obat.index')->with('success', 'Data Berhasil Di Tambahkan');
 
+        Obat::create($request->all());
+
+        return redirect()->route('obat.index')->with('success', 'Obat berhasil ditambahkan.');
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Tampilkan detail obat.
      */
     public function show($id)
     {
-        //
+        $obat = Obat::findOrFail($id);
+        return view('obat.show', compact('obat'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Tampilkan formulir untuk mengedit obat.
      */
     public function edit($id)
     {
-        $edit = Obat::findorfail($id);
+        $obat = Obat::findOrFail($id);
         $bookings_countApp = Booking::where('status', 'pending')->whereDate('tanggal', Carbon::today())->count();
         $pembayarans_countApp = KomfirmasiPembayaran::where('status', 'checking')->count();
 
-        return view('admin.obat.edit', compact('edit', 'pembayarans_countApp', 'bookings_countApp'));
-
+        return view('admin.obat.edit', compact('obat', 'bookings_countApp', 'pembayarans_countApp'));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Perbarui data obat.
      */
-    public function update(Request $request, Obat $obat)
+    public function update(Request $request, $id)
     {
+        $request->validate([
+            'nama_obat' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'stok' => 'required|integer|min:0',
+            'harga' => 'required|numeric|min:0',
+        ]);
+
+        $obat = Obat::findOrFail($id);
         $obat->update($request->all());
-        return redirect()->route('obat.index')->with('success', 'Data Berhasil Di Update');
+
+        return redirect()->route('obat.index')->with('success', 'Obat berhasil diperbarui.');
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Hapus obat.
      */
     public function destroy($id)
     {
-        $obat = Obat::findorfail($id);
+        $obat = Obat::findOrFail($id);
         $obat->delete();
-        return redirect()->route('obat.index')->with('success', 'Data Berhasil Di Delete');
+
+        return redirect()->route('obat.index')->with('success', 'Obat berhasil dihapus.');
     }
 }

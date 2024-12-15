@@ -18,16 +18,16 @@
               <div class="card-body">
                 <h4 class="card-title">Create Diagnosa</h4>
                 <p class="card-description"> PAS </p>
-                <form class="forms-sample" method="POST" action="{{ route('rawatJalan.store') }}">
-                    @csrf
-                    @foreach($booking_details as $booking)
-                    <input type="hidden" name="booking_id" value="{{ $booking['booking_id'] }}">
-                    <input type="hidden" name="user_id" value="{{ $booking['user_id'] }}">
-                  @endforeach
+                <form class="forms-sample" method="POST" action="{{route('updateDiagnosa', $rawatJalanDiagnosa->id)}}">
+                  @csrf
+                  @method('PUT')
+
+                  <input type="hidden" name="booking_id" value="{{$rawatJalanDiagnosa->booking_id}}">
+                  <input type="hidden" name="user_id" value="{{$rawatJalanDiagnosa->user_id}}">
 
                   <div class="form-group">
                     <label for="penyakit">Penyakit </label>
-                    <textarea name="penyakit" id="penyakit" class="form-control" cols="30" rows="10">{{ old('penyakit') }}</textarea>
+                    <textarea name="penyakit" id="penyakit" class="form-control" cols="30" rows="10" required>{{ old('penyakit', $rawatJalanDiagnosa->penyakit) }}</textarea>
                     @if($errors->has('penyakit'))
                         <small id="emailHelp" class="form-text text-warning">{{ $errors->first('penyakit') }}</small>
                     @endif
@@ -35,14 +35,15 @@
 
                   <!-- Container for dynamic obat and jumlah input -->
                   <div id="obat-container">
+                    {{-- @foreach($rawatJalanDiagnosa->rawatJalanObat as $index => $item) --}}
                     <div class="row obat-row">
                       <div class="col-md-4">
                         <div class="form-group">
                           <label for="obat">Obat</label>
                           <select class="form-control obat-select" name="obat[]">
-                            <option value="0" disabled selected>-- Pilih obat --</option>
-                            @foreach($obatDiagnosa as $item)
-                              <option value="{{ $item->nama_obat }}" data-id="{{ $item->id }}" data-stok="{{ $item->stok }}">{{ $item->nama_obat }}</option>
+                            <option value="0" disabled>-- Pilih obat --</option>
+                            @foreach($obatDiagnosa as $obat)
+                              <option value="{{ $obat->id }}" data-id="{{ $obat->id }}" data-stok="{{ $obat->stok }}">{{ $obat->nama_obat }}</option>
                             @endforeach
                           </select>
                         </div>
@@ -50,29 +51,34 @@
                       <div class="col-md-4">
                         <div class="form-group">
                           <label for="jumlah">Jumlah</label>
-                          <input type="number" class="form-control jumlah-input" name="jumlah[]" min="1" value="0" disabled>
+                          <input type="number" class="form-control jumlah-input" name="jumlah[]" min="1">
                         </div>
                       </div>
+                      
                       <div class="col-md-2">
+                        {{-- @if($loop->first) --}}
                         <button type="button" class="btn btn-gradient-primary form-control" id="tambah-obat">+ tambah</button>
+                        {{-- @else --}}
                       </div>
                       <div class="col-md-2">
                         <button type="button" class="btn btn-gradient-danger form-control kurangi-obat">- kurangi</button>
+                        {{-- @endif --}}
                       </div>
                     </div>
+                    {{-- @endforeach --}}
                   </div>
 
                   <div class="mb-4">
                     <div class="form-check">
                       <label class="form-check-label text-muted">
-                        <input type="checkbox" name="cek_diagnosa" value="approve_Diagnosa" class="form-check-input"> Setujui Diagnosa
+                        <input type="checkbox" name="cek_diagnosa" value="approve_Diagnosa" class="form-check-input" {{ $rawatJalanDiagnosa->cek_diagnosa == 'approve_Diagnosa' ? 'checked' : '' }} required> Setujui Diagnosa
                       </label>
                       @if($errors->has('cek_diagnosa'))
                         <small id="emailHelp" class="form-text text-warning">{{ $errors->first('cek_diagnosa') }}</small>
                       @endif
                     </div>
                   </div>
-                  <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
+                  <button type="submit" class="btn btn-gradient-primary mr-2">Update</button>
                 </form>
               </div>
             </div>
@@ -114,42 +120,62 @@
       }
     });
 
-    // Submit form dengan AJAX untuk mengurangi stok
+
     $('form').on('submit', function(event) {
-      event.preventDefault(); // Mencegah form submit secara default
+    event.preventDefault(); // Mencegah form submit secara default
 
-      var obatIds = [];
-      var jumlahs = [];
+    var obatIds = [];
+    var jumlahs = [];
+    var penyakit = $('#penyakit').val(); // Ambil penyakit dari textarea
+    var booking_id = $('input[name="booking_id"]').val(); // Ambil booking_id
+    var user_id = $('input[name="user_id"]').val(); // Ambil user_id
 
-      // Ambil data obat dan jumlah
-      $('select[name="obat[]"]').each(function() {
+    // Ambil data obat dan jumlah
+    $('select[name="obat[]"]').each(function() {
         obatIds.push($(this).val()); // Ambil ID obat
-      });
+    });
 
-      $('input[name="jumlah[]"]').each(function() {
+    $('input[name="jumlah[]"]').each(function() {
         jumlahs.push($(this).val()); // Ambil jumlah yang dipilih
-      });
+    });
 
-      // Kirim AJAX request untuk mengurangi stok
-      $.ajax({
-        url: "{{ route('rawatJalan.kurangiStok') }}",
-        type: 'POST',
+    // console.log({
+    //     _token: '{{ csrf_token() }}',
+    //     _method: 'PUT',
+    //     obatIds: obatIds,
+    //     jumlahs: jumlahs,
+    //     penyakit: penyakit,
+    //     booking_id: booking_id,
+    //     user_id: user_id
+    // });
+
+    $.ajax({
+        url: "{{ route('updateDiagnosa', $rawatJalanDiagnosa->id) }}", // URL rute
+        type: 'POST', // Gunakan POST, lalu tambahkan _method: 'PUT'
         data: {
-          _token: '{{ csrf_token() }}',
-          obat_ids: obatIds,
-          jumlahs: jumlahs
+            _token: '{{ csrf_token() }}',
+            _method: 'PUT', // Laravel mengenali ini sebagai PUT
+            obatIds: obatIds,
+            jumlahs: jumlahs,
+            penyakit: penyakit,
+            booking_id: booking_id,
+            user_id: user_id
         },
         success: function(response) {
-          if (response.status === 'success') {
-            alert('Stok berhasil dikurangi!');
-            // Sekarang kirim form ke server untuk proses lebih lanjut
-            $('form')[0].submit();
-          }
+            if (response.status === 'success') {
+                alert(response.message);
+                window.location.href = response.redirect;
+                // $('form')[0].submit(); // Submit form jika berhasil
+            } else {
+                alert(response.message);
+            }
         },
         error: function(error) {
-          alert('Terjadi kesalahan saat mengurangi stok');
+            alert('Terjadi kesalahan saat mengurangi stok');
         }
-      });
     });
+});
+
+
   });
 </script>

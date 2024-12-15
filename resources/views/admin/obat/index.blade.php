@@ -40,32 +40,32 @@
             <table id="example" class="table table-bordered">
               <thead>
                 <tr>
-                  <th> # </th>
-                  <th> Nama Obat</th>
-                  <th> Jumlah</th>
-                  <th> Expired</th>
-                  <th> Action </th>
-                </tr>
+                  <th>#</th>
+                  <th>Nama Obat</th>
+                  <th>Deskripsi</th>
+                  <th>Stok</th>
+                  <th>Harga</th>
+                  <th>Aksi</th>
+              </tr>
               </thead>
               <tbody>
-                <?php $no= 1; ?>
-                @foreach ($obats as $item)   
+                @foreach ($obat as $item)
                 <tr>
-                  <td> {{$no++}} </td>
-                  <td> {{$item->nama_obat}} </td>
-                  <td> {{$item->jumlah}} </td>
-                  <td> {{$item->expired}} </td>
-                  <td>
-                    <form action="{{ route('obat.destroy', $item->id) }}" method="POST">
-                        <a href="{{ route('obat.edit', $item->id) }}" class="btn btn-success btn-sm">Edit</a> 
-                        @csrf
-                        @method('DELETE')
-                      <button type="submit" class="btn btn-danger btn-sm" 
-                      onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Delete</button>
-                    </form>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $item->nama_obat }}</td>
+                    <td>{{ $item->deskripsi }}</td>
+                    <td>{{ $item->stok }}</td>
+                    <td>{{ number_format($item->harga, 2) }}</td>
+                    <td>
+                        <a href="{{ route('obat.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ route('obat.destroy', $item->id) }}" method="POST" style="display: inline-block;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
+                        </form>
                     </td>
                 </tr>
-                @endforeach
+            @endforeach
 
               </tbody>
             </table>
@@ -80,14 +80,6 @@
 <script>
     $(document).ready(function() {
     $('#example').DataTable();
-
-     // Menampilkan alert jika ada obat yang kadaluarsanya mendekati 1 bulan
-     @foreach($obats as $item)
-            @if($item->expired_in_1_month)
-                alert('Obat {{ $item->nama_obat }} akan kedaluwarsa dalam waktu 1 bulan!');
-            @endif
-        @endforeach
-        
     } );
   </script> 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>

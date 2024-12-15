@@ -9,10 +9,6 @@ class RawatJalan extends Model
 {
     use HasFactory;
 
-    // public function user()
-    // {
-    //     return $this->belongsTo(user::class, 'user_id');
-    // }
 
     public function user()
     {
@@ -24,12 +20,26 @@ class RawatJalan extends Model
         return $this->hasMany(booking::class);
     }
 
+    
     public function obat()
     {
         return $this->belongsToMany(Obat::class, 'rawat_jalan_obat')->withPivot('jumlah');
     }
 
+    public function diagnosa()
+    {
+        return $this->hasMany(RawatJalanDiagnosa::class, 'booking_id', 'booking_id');
+    }
+
+    
+
     protected $fillable = [
+        'nama',
+        'pelayanan',
+        'jam',
+        'tanggal',
+        'keluhan',
+        'status',
         'tensi',
         'gula_darah',
         'kolesterol',

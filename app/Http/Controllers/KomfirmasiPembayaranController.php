@@ -76,7 +76,6 @@ class KomfirmasiPembayaranController extends Controller
     {
         // $user = User::latest()->get();
         $booking_id = Auth::user()->last_booking->id; // Misalnya mengambil booking_id dari booking terakhir pengguna
-        // dd($booking_id);
         return view('landing.komfirmasi_bayar', compact('booking_id'));
     }
 

@@ -11,12 +11,17 @@ class Obat extends Model
 
     public function rawatJalan()
     {
-        return $this->belongsToMany(RawatJalan::class, 'rawat_jalan_obat')->withPivot('jumlah');
+        return $this->belongsToMany(RawatJalanDiagnosa::class, 'rawat_jalan_obat')->withPivot('jumlah');
     }
 
     protected $fillable = [
         'nama_obat',
-        'jumlah',
-        'expired',
+        'deskripsi',
+        'stok',
+        'harga',
+    ];
+
+    protected $attributes = [
+        'stok' => 0, // Default stok adalah 0
     ];
 }

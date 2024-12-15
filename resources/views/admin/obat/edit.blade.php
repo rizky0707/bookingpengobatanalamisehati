@@ -18,28 +18,36 @@
               <div class="card-body">
                 <h4 class="card-title">Create Obat</h4>
                 <p class="card-description"> PAS </p>
-                <form class="forms-sample" method="POST" action="{{route('obat.update', $edit->id)}}">
+                <form class="forms-sample" method="POST" action="{{route('obat.update', $obat->id)}}">
                     @csrf
                     @method('PUT')
                   <div class="form-group">
                     <label for="nama_obat">Nama Obat</label>
-                    <input type="text" name="nama_obat" value="{{ $edit->nama_obat }}" class="form-control" id="nama_obat" placeholder="Nama Obat">
+                    <input type="text" name="nama_obat" value="{{ $obat->nama_obat }}" class="form-control" id="nama_obat" placeholder="Nama Obat">
                     @if($errors->has('nama_obat'))
                   <small id="emailHelp" class="form-text text-warning">{{ $errors->first('nama_obat') }}</small>
                   @endif            
-                  </div>    
+                  </div>  
                   <div class="form-group">
-                    <label for="jumlah">Jumlah</label>
-                    <input type="number" name="jumlah" value="{{ $edit->jumlah }}" class="form-control" id="jumlah" placeholder="Jumlah">
-                    @if($errors->has('jumlah'))
-                  <small id="emailHelp" class="form-text text-warning">{{ $errors->first('jumlah') }}</small>
+  
+                    <label for="deskripsi">Deskripsi</label>
+                    <textarea name="deskripsi" id="deskripsi" class="form-control">{{ $obat->deskripsi }}</textarea>
+                    @if($errors->has('nama_obat'))
+                    <small id="emailHelp" class="form-text text-warning">{{ $errors->first('deskripsi') }}</small>
+                    @endif 
+                    </div>     
+                  <div class="form-group">
+                    <label for="stok">Stok</label>
+                    <input type="number" name="stok" value="{{ $obat->stok }}" class="form-control" id="stok" placeholder="stok">
+                    @if($errors->has('stok'))
+                  <small id="emailHelp" class="form-text text-warning">{{ $errors->first('stok') }}</small>
                   @endif            
-                  </div>   
+                  </div> 
                   <div class="form-group">
-                    <label for="expired">Expired</label>
-                    <input type="date" name="expired" value="{{ $edit->expired }}" min="{{ \Carbon\Carbon::today()->toDateString() }}" @guest readonly @endguest class="form-control" id="expired" placeholder="Tanggal Expired">
-                    @if($errors->has('expired'))
-                  <small id="emailHelp" class="form-text text-warning">{{ $errors->first('expired') }}</small>
+                    <label for="harga">Harga</label>
+                    <input type="number" name="harga" value="{{ $obat->harga }}" class="form-control" id="harga" placeholder="harga">
+                    @if($errors->has('harga'))
+                  <small id="emailHelp" class="form-text text-warning">{{ $errors->first('harga') }}</small>
                   @endif            
                   </div>              
                   <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>

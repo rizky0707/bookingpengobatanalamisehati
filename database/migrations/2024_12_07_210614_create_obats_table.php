@@ -15,9 +15,10 @@ class CreateObatsTable extends Migration
     {
         Schema::create('obats', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_obat');
-            $table->integer('jumlah');
-            $table->string('expired');
+            $table->string('nama_obat', 255);
+            $table->text('deskripsi')->nullable();
+            $table->integer('stok')->default(0);
+            $table->decimal('harga', 10, 2)->default(0.00);
             $table->timestamps();
         });
     }

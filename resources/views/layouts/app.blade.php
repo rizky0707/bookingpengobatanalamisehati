@@ -242,15 +242,16 @@
               <a class="nav-link" data-toggle="collapse" href="#ui-rawat" aria-expanded="false" aria-controls="ui-basic" >
                 <span class="menu-title">Rawat Jalan</span>
                 <i class="menu-arrow"></i>
-                <i class="mdi mdi-account-multiple-outline menu-icon"></i>
+                <i class="mdi mdi-account-switch menu-icon"></i>
               </a>
               <div class="collapse" id="ui-rawat">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item"> <a class="nav-link"  href="{{route('rawatJalan.index')}}">Rekam Medis</a></li>
                 </ul>
-                {{-- <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href="#">Terapis</a></li>
-                </ul> --}}
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link"  href="{{route('indexKartuRekamMedis')}}">Kartu Rekam Medis</a></li>
+                </ul>
+               
               </div>
             </li>
 
@@ -258,7 +259,7 @@
               <a class="nav-link" data-toggle="collapse" href="#ui-obat" aria-expanded="false" aria-controls="ui-basic" >
                 <span class="menu-title">Obat</span>
                 <i class="menu-arrow"></i>
-                <i class="mdi mdi-account-multiple-outline menu-icon"></i>
+                <i class="mdi mdi-medical-bag menu-icon"></i>
               </a>
               <div class="collapse" id="ui-obat">
                 <ul class="nav flex-column sub-menu">
@@ -291,7 +292,7 @@
               <a class="nav-link" data-toggle="collapse" href="#ui-terapis" aria-expanded="false" aria-controls="ui-basic">
                 <span class="menu-title">Biaya</span>
                 <i class="menu-arrow"></i>
-                <i class="mdi mdi-account-network menu-icon"></i>
+                <i class="mdi  mdi-cash menu-icon"></i>
               </a>
               <div class="collapse" id="ui-terapis">
                 {{-- <ul class="nav flex-column sub-menu">
@@ -327,7 +328,7 @@
               <a class="nav-link" data-toggle="collapse" href="#ui-laporan" aria-expanded="false" aria-controls="ui-laporan" >
                 <span class="menu-title">Laporan</span>
                 <i class="menu-arrow"></i>
-                <i class="mdi mdi-account-multiple-outline menu-icon"></i>
+                <i class="mdi mdi-download-outline menu-icon"></i>
               </a>
               
               <div class="collapse" id="ui-laporan">
@@ -390,81 +391,78 @@
     <!-- container-scroller -->
     <!-- plugins:js -->
     <script>
-      // Update booking count every 5 seconds
-      setInterval(function() {
-        // Example of making an Ajax request to get the updated count from the server
-        fetch('/path-to-get-booking-count')  // Replace with the correct endpoint for getting updated booking count
-          .then(response => response.json())  // Assuming the response is in JSON format
-          .then(data => {
-            // Assuming the response returns a field `bookings_countApp`
-            document.getElementById('bookingCount').textContent = data.bookings_countApp;
-          })
-          .catch(error => {
-            console.error('Error fetching booking count:', error);
-          });
-      }, 5000);  // 5000 milliseconds = 5 seconds
-    </script>
-    <script>
-      // Update booking count every 5 seconds
-      setInterval(function() {
-        // Example of making an Ajax request to get the updated count from the server
-        fetch('/path-to-get-pembayaran-count')  // Replace with the correct endpoint for getting updated booking count
-          .then(response => response.json())  // Assuming the response is in JSON format
-          .then(data => {
-            // Assuming the response returns a field `bookings_countApp`
-            document.getElementById('pembayaransCount').textContent = data.pembayarans_countApp;
-          })
-          .catch(error => {
-            console.error('Error fetching booking count:', error);
-          });
-      }, 5000);  // 5000 milliseconds = 5 seconds
-    </script>
-    <script>
-      // Function to play notification sound
-function playSound() {
-  var audio = new Audio('{{ asset("assets/admin/assets/sounds/payment-notification.mp3") }}'); // Adjust the path if necessary
-  audio.play().catch(function(error) {
-    console.error('Error playing sound:', error);  // Handle any issues with playing the sound
-  });
-}
-
-// Flag to track if the sound has been played
-let soundPlayed = false;
-
-// Flag to track if the user has interacted with the page
-let isUserInteracted = false;
-
-// Detect user interaction (click anywhere on the page)
-document.body.addEventListener('click', function() {
-  isUserInteracted = true;
-});
-
-// Update payment count every 5 seconds
-setInterval(function() {
-  // Example of making an Ajax request to get the updated count from the server
-  fetch('/path-to-get-pembayaran-count')  // Replace with the correct endpoint for getting updated payment count
-    .then(response => response.json())  // Assuming the response is in JSON format
-    .then(data => {
-      // Assuming the response returns a field `pembayarans_countApp`
-      const paymentCount = data.pembayarans_countApp;
-
-      // Update the payment count display
-      document.getElementById('pembayaransCount').textContent = paymentCount;
-
-      // If the user has interacted and there is a payment count greater than 0, and sound hasn't been played yet
-      if (isUserInteracted && paymentCount > 0 && !soundPlayed) {
-        playSound();
-        soundPlayed = true;  // Set the flag to true so the sound doesn't play again
-      } else if (paymentCount === 0) {
-        soundPlayed = false;  // Reset flag if no payments
+      // Utility function to fetch and cache data
+      async function fetchAndCacheData(url, cacheKey, interval = 5000) {
+        try {
+          const response = await fetch(url); // Fetch data from the server
+          const data = await response.json(); // Parse JSON response
+    
+          // Cache data in localStorage
+          localStorage.setItem(cacheKey, JSON.stringify({
+            value: data,
+            timestamp: Date.now()
+          }));
+    
+          return data;
+        } catch (error) {
+          console.error(`Error fetching ${cacheKey}:`, error);
+          
+          // Use cached data if available
+          const cachedData = localStorage.getItem(cacheKey);
+          if (cachedData) {
+            const { value } = JSON.parse(cachedData);
+            return value;
+          }
+          
+          return null; // Fallback in case of an error
+        }
       }
-    })
-    .catch(error => {
-      console.error('Error fetching payment count:', error);
-    });
-}, 5000);  // 5000 milliseconds = 5 seconds
-
+    
+      // Function to update booking count
+      async function updateBookingCount() {
+        const data = await fetchAndCacheData('/path-to-get-booking-count', 'bookingCountCache');
+        if (data) {
+          document.getElementById('bookingCount').textContent = data.bookings_countApp;
+        }
+      }
+    
+      // Function to update payment count
+      async function updatePaymentCount() {
+        const data = await fetchAndCacheData('/path-to-get-pembayaran-count', 'paymentCountCache');
+        if (data) {
+          const paymentCount = data.pembayarans_countApp;
+          document.getElementById('pembayaransCount').textContent = paymentCount;
+    
+          // Play sound logic
+          if (isUserInteracted && paymentCount > 0 && !soundPlayed) {
+            playSound();
+            soundPlayed = true;
+          } else if (paymentCount === 0) {
+            soundPlayed = false;
+          }
+        }
+      }
+    
+      // Set interval to update data
+      setInterval(updateBookingCount, 5000);
+      setInterval(updatePaymentCount, 5000);
+    
+      // Play notification sound
+      function playSound() {
+        const audio = new Audio('{{ asset("assets/admin/assets/sounds/payment-notification.mp3") }}');
+        audio.play().catch((error) => console.error('Error playing sound:', error));
+      }
+    
+      // Track user interaction
+      let soundPlayed = false;
+      let isUserInteracted = false;
+      document.body.addEventListener('click', () => isUserInteracted = true);
+    
+      // Initial data load
+      updateBookingCount();
+      updatePaymentCount();
     </script>
+    
     
     
     <script src="{{asset('assets/admin/assets/vendors/js/vendor.bundle.base.js')}}"></script>

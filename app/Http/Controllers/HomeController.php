@@ -56,17 +56,24 @@ class HomeController extends Controller
     public function adminHome()
     {
         $bookings = Booking::whereDate('tanggal', Carbon::today())->get();
-        $bookings_count = Booking::all()->count();
-        $bookings_count_favorit_1 = Booking::all()->where('id_category', 1)->count();
-        $bookings_count_favorit_2 = Booking::all()->where('id_category', 2)->count();
-        $bookings_count_favorit_3 = Booking::all()->where('id_category', 3)->count();
-        $data = compact('bookings_count_favorit_1', 'bookings_count_favorit_2', 'bookings_count_favorit_3');
-        $doctors_count = Doctor::all()->count();
+        $bookings_count = Booking::where('status', 'success')->count();
+        // Menghitung jumlah masing-masing pelayanan yang dipilih
+    $pelayanan_count = Booking::latest()
+    ->select('pelayanan', \DB::raw('count(*) as count'))
+    ->groupBy('pelayanan')
+    ->get();
 
-        // dd($pembayarans_countApp);
         $bookings_countApp = Booking::where('status', 'pending')->whereDate('tanggal', Carbon::today())->count();
         $pembayarans_countApp = KomfirmasiPembayaran::where('status', 'checking')->count();
-        return view('adminHome', compact('bookings', 'bookings_count', 'doctors_count', 'data', 'bookings_countApp', 'pembayarans_countApp'));
+
+    // Menghitung total nominal pembayaran untuk booking yang berstatus 'success'
+    $total_nominal = KomfirmasiPembayaran::join('bookings', 'komfirmasi_pembayarans.booking_id', '=', 'bookings.id')
+        ->where('komfirmasi_pembayarans.status', 'success')  // Hanya yang statusnya success
+        ->sum('bookings.nominal');  // Jumlahkan nilai nominal
+
+        // dd($total_nominal);
+
+        return view('adminHome', compact('bookings', 'bookings_count', 'bookings_countApp', 'pembayarans_countApp', 'pelayanan_count', 'total_nominal'));
     }
 
     
@@ -84,17 +91,17 @@ class HomeController extends Controller
         return view('operatorHome', compact('bookings', 'bookings_count', 'doctors_count', 'data'));
     }
 
-    public function doctorHome()
-    {
-        $bookings = Booking::whereDate('tanggal', Carbon::today())->get();
-        $bookings_count = Booking::all()->count();
-        $bookings_count_favorit_1 = Booking::all()->where('id_category', 1)->count();
-        $bookings_count_favorit_2 = Booking::all()->where('id_category', 2)->count();
-        $bookings_count_favorit_3 = Booking::all()->where('id_category', 3)->count();
-        $data = compact('bookings_count_favorit_1', 'bookings_count_favorit_2', 'bookings_count_favorit_3');
-        // max($data);
-        // dd($data);
-        $doctors_count = Doctor::all()->count();
-        return view('doctorHome', compact('bookings', 'bookings_count', 'doctors_count', 'data'));
-    }
+    // public function doctorHome()
+    // {
+    //     $bookings = Booking::whereDate('tanggal', Carbon::today())->get();
+    //     $bookings_count = Booking::all()->count();
+    //     $bookings_count_favorit_1 = Booking::all()->where('id_category', 1)->count();
+    //     $bookings_count_favorit_2 = Booking::all()->where('id_category', 2)->count();
+    //     $bookings_count_favorit_3 = Booking::all()->where('id_category', 3)->count();
+    //     $data = compact('bookings_count_favorit_1', 'bookings_count_favorit_2', 'bookings_count_favorit_3');
+    //     // max($data);
+    //     // dd($data);
+    //     $doctors_count = Doctor::all()->count();
+    //     return view('doctorHome', compact('bookings', 'bookings_count', 'doctors_count', 'data'));
+    // }
 }

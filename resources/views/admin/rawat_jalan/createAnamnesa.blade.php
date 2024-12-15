@@ -18,37 +18,34 @@
               <div class="card-body">
                 <h4 class="card-title">Create Anamnesa</h4>
                 <p class="card-description"> PAS </p>
-                <form class="forms-sample" method="POST" action="{{route('rawatJalan.store')}}">
+                <form class="forms-sample" method="POST" action="{{route('rawatJalan.update', $rawatJalan_edit->id)}}">
                     @csrf
-                    @foreach($booking_details as $booking)
-                    <input type="hidden" name="booking_id" value="{{ $booking['booking_id'] }}">
-                    <input type="hidden" name="user_id" value="{{ $booking['user_id'] }}">
-                  @endforeach
+                    @method('PUT')
                   
                   <div class="form-group">
                     <label for="tensi">Tensi </label>
-                    <input type="text" name="tensi" value="{{old('tensi')}}" class="form-control" id="tensi" placeholder="Cek Tensi">
+                    <input type="text" name="tensi" value="{{ $rawatJalan_edit->tensi }}" class="form-control" id="tensi" placeholder="Cek Tensi">
                     @if($errors->has('tensi'))
                   <small id="emailHelp" class="form-text text-warning">{{ $errors->first('tensi') }}</small>
                   @endif            
                   </div>
                   <div class="form-group">
                     <label for="gula_darah">Gula Darah </label>
-                    <input type="text" name="gula_darah" value="{{old('gula_darah')}}" class="form-control" id="gula_darah" placeholder="Cek Gula Darah">
+                    <input type="text" name="gula_darah" value="{{ $rawatJalan_edit->gula_darah }}" class="form-control" id="gula_darah" placeholder="Cek Gula Darah">
                     @if($errors->has('gula_darah'))
                   <small id="emailHelp" class="form-text text-warning">{{ $errors->first('gula_darah') }}</small>
                   @endif            
                   </div>  
                   <div class="form-group">
                     <label for="asam_urat">Asam Urat </label>
-                    <input type="text" name="asam_urat" value="{{old('asam_urat')}}" class="form-control" id="asam_urat" placeholder="Cek Asam Urat">
+                    <input type="text" name="asam_urat" value="{{ $rawatJalan_edit->asam_urat }}" class="form-control" id="asam_urat" placeholder="Cek Asam Urat">
                     @if($errors->has('asam_urat'))
                   <small id="emailHelp" class="form-text text-warning">{{ $errors->first('asam_urat') }}</small>
                   @endif            
                   </div>  
                   <div class="form-group">
                     <label for="kolesterol">Kolesterol </label>
-                    <input type="text" name="kolesterol" value="{{old('kolesterol')}}" class="form-control" id="kolesterol" placeholder="Cek Kolesterol">
+                    <input type="text" name="kolesterol" value="{{ $rawatJalan_edit->kolesterol }}" class="form-control" id="kolesterol" placeholder="Cek Kolesterol">
                     @if($errors->has('kolesterol'))
                   <small id="emailHelp" class="form-text text-warning">{{ $errors->first('kolesterol') }}</small>
                   @endif            
@@ -56,7 +53,7 @@
                   <div class="mb-4">
                     <div class="form-check">
                       <label class="form-check-label text-muted">
-                        <input type="checkbox" name="cek_anamnesa" value="approve_anamnesa" class="form-check-input"> Setujui Anamnesa </label>
+                        <input type="checkbox" name="cek_anamnesa" value="approve_anamnesa" {{ $rawatJalan_edit->cek_anamnesa == 'approve_anamnesa' ? 'checked' : '' }}  class="form-check-input"> Setujui Anamnesa </label>
                         @if($errors->has('cek_anamnesa'))
                   <small id="emailHelp" class="form-text text-warning">{{ $errors->first('cek_anamnesa') }}</small>
                   @endif   

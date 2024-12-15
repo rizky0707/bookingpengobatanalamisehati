@@ -58,6 +58,10 @@ Route::get('admin/users', [ManageUserController::class, 'index'])->name('manageu
 // Rute untuk edit user
 Route::get('admin/users/{id}/edit', [ManageUserController::class, 'editUser'])->name('editUserAdmin');
 
+Route::get('admin/rawatJalan/{id}/editDiagnosa', [RawatJalanController::class, 'editDiagnosa'])->name('editDiagnosa')->middleware('is_admin');
+Route::put('admin/rawatJalan/updateDiagnosa/{id}', [RawatJalanController::class, 'updateDiagnosa'])->name('updateDiagnosa')->middleware('is_admin');
+Route::get('admin/rawatJalan/kartuRekamMedis', [RawatJalanController::class, 'indexKartuRekamMedis'])->name('indexKartuRekamMedis')->middleware('is_admin');
+
 // Rute untuk update user
 Route::put('admin/users/{id}', [ManageUserController::class, 'updateUser'])->name('updateUser');
 
@@ -68,15 +72,9 @@ Route::get('profile/edit/{id}', [ManageUserController::class, 'editProfile'])->n
 Route::get('profile/', [ManageUserController::class, 'indexUser'])->name('indexUser')->middleware('auth');
 Route::put('profile/update/{user}', [ManageUserController::class, 'updateProfile'])->name('updateProfile')->middleware('auth');
 
-// routes/web.php
-// Route::get('/obat/data', [RawatJalanController::class, 'getObatData']);
-
-// Routes/web.php
-Route::post('/rawat-jalan/kurangi-stok', [RawatJalanController::class, 'kurangiStok'])->name('rawatJalan.kurangiStok');
 
 
 
-Route::get('admin/rawatJalan/createDiagnosa', [RawatJalanController::class, 'createDiagnosa'])->name('createDiagnosa')->middleware('is_admin');
 
 
 Route::resource('admin/service', ServiceController::class)->middleware('is_admin');
