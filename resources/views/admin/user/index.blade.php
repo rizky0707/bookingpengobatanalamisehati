@@ -57,11 +57,7 @@
                   <td> {{$item->created_at->format('Y-m-d')}}</td>
                   <td>
                     <form action="#" method="POST">
-                        <a href="{{ route('editUserAdmin', $item->id) }}" class="btn btn-success btn-sm">Edit</a> 
-                        {{-- @csrf
-                        @method('DELETE')
-                      <button type="submit" class="btn btn-danger btn-sm" 
-                      onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Delete</button> --}}
+                        <a href="{{ route('editUserAdmin', $item->id) }}" class="btn btn-success btn-sm">Edit</a>
                     </form>
                     </td>
                 </tr>
