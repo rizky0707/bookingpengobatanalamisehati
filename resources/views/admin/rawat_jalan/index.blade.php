@@ -176,7 +176,7 @@
       <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             
-          <div class="card-body">
+          {{-- <div class="card-body">
             @if ($message = Session::get('success'))
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
       <strong>Berhasil !</strong> {{ $message }}.
@@ -184,7 +184,7 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    @endif
+    @endif --}}
 
 <div class="row">
       <div class="col">
@@ -231,14 +231,14 @@
         <td>
               <form action="#" method="POST">
 
-                @if(is_null($item->penyakit)) 
+                {{-- @if(is_null($item->penyakit))  --}}
                 <a href="{{ route('editDiagnosa', $item->id) }}" class="btn btn-success btn-sm">
                   <i class="mdi mdi-pencil-box-outline"></i> Diagnosa
                 </a>      
-                @else 
+                {{-- @else  --}}
             <!-- Jika anamnesa sudah diisi -->
-            <span class="badge bg-info text-white">Selesai Diagnosa</span>
-        @endif        
+            {{-- <span class="badge bg-info text-white">Selesai Diagnosa</span> --}}
+        {{-- @endif         --}}
               </form>
         </td>  
       </tr>

@@ -27,6 +27,11 @@ class RawatJalanDiagnosa extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function rawatJalanObat()
+    {
+        return $this->hasMany(RawatJalanObat::class, 'rawat_jalan_diagnosa_id', 'id');
+    }
+
 
     public function obats()
 {

@@ -252,7 +252,7 @@ class BookingController extends Controller
         // $booking->tanggal = Carbon::createFromFormat('d/m/Y', $request->tanggal);
         $booking->tanggal = $request->tanggal;
         $booking->alamat   = $request->alamat;
-        $booking->keluhan   = $request->alamat;
+        $booking->keluhan   = $request->keluhan;
 
         // dd($booking);
         $booking->save();

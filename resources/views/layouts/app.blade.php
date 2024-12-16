@@ -449,7 +449,7 @@
     
       // Play notification sound
       function playSound() {
-        const audio = new Audio('{{ asset("assets/admin/assets/sounds/payment-notification.mp3") }}');
+        const audio = new Audio('{{ asset("assets/admin/assets/sounds/payment-notification.MP3") }}');
         audio.play().catch((error) => console.error('Error playing sound:', error));
       }
     
