@@ -18,14 +18,14 @@
               <div class="card-body">
                 <h4 class="card-title">Show Pembayaran</h4>
                 <p class="card-description"> PAS </p>
-                  <div class="row">
+                  {{-- <div class="row">
                     <div class="col">
                       <label for="name">Pelayanan</label>
                     </div>
                     <div class="col">
-                      <p>{{$show_pembayaran->booking->pelayanan}}</p>
+                      <p>{{$show_pembayaran->booking->keluhan}}</p>
                     </div>
-                  </div>
+                  </div> --}}
                 
                   <div class="row">
                     <div class="col">
