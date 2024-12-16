@@ -76,26 +76,38 @@ class BookingController extends Controller
     }
 
     // Mendapatkan jam yang tersedia pada tanggal tertentu
-    private function getAvailableTimes($date)
-    {
-        $bookedTimes = Booking::where('tanggal', $date->toDateString())
-                              ->pluck('jam') // Ambil semua jam yang sudah dibooking
-                              ->toArray();
+private function getAvailableTimes($date)
+{
+    // Ambil semua jam yang sudah dibooking pada tanggal tersebut
+    $bookedTimes = Booking::where('tanggal', $date->toDateString())
+                          ->pluck('jam') // Ambil semua jam yang sudah dibooking
+                          ->toArray();
+
+    // Definisikan jam operasional (09:00 - 21:00)
+    $availableTimes = [];
+    $startTime = Carbon::createFromFormat('H:i', '09:00');
+    $endTime = Carbon::createFromFormat('H:i', '21:00');
+
+    for ($time = $startTime; $time < $endTime; $time->addHour()) {
+        $formattedTime = $time->format('H:i');
         
-        // Definisikan jam yang mungkin (misalnya dari jam 08:00 - 18:00 dengan interval 1 jam)
-        $availableTimes = [];
-        $startTime = Carbon::createFromFormat('H:i', '08:00');
-        $endTime = Carbon::createFromFormat('H:i', '18:00');
-        
-        for ($time = $startTime; $time <= $endTime; $time->addHour()) {
-            // Jika jam tersebut belum dibooking
-            if (!in_array($time->format('H:i'), $bookedTimes)) {
-                $availableTimes[] = $time->format('H:i');
-            }
+        // Lewati waktu istirahat: 12:00-13:00 dan 18:00-19:00
+        if (
+            ($formattedTime >= '12:00' && $formattedTime < '13:00') ||
+            ($formattedTime >= '18:00' && $formattedTime < '19:00')
+        ) {
+            continue;
         }
-        
-        return $availableTimes;
+
+        // Jika jam tersebut belum dibooking
+        if (!in_array($formattedTime, $bookedTimes)) {
+            $availableTimes[] = $formattedTime;
+        }
     }
+
+    return $availableTimes;
+}
+
 
 
     public function print_booking()

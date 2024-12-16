@@ -8,18 +8,59 @@
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{asset('assets/admin/assets/vendors/mdi/css/materialdesignicons.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/admin/assets/vendors/css/vendor.bundle.base.css')}}">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <!-- endinject -->
-    <!-- Layout styles -->
+    
     <link rel="stylesheet" href="{{asset('assets/admin/assets/css/style.css')}}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{asset('assets/admin/assets/images/logo.png')}}" />
+    <style>
+      .alert-css {
+        display: none; /* Default: disembunyikan */
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        background-color: #f8d7da; /* Warna merah muda untuk alert */
+        color: #721c24; /* Warna teks merah gelap */
+        padding: 15px 20px;
+        border: 1px solid #f5c6cb;
+        border-radius: 5px;
+        font-size: 16px;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+    
+    
     @yield('style')
   </head>
   <body>
+
+    {{-- <!-- Modal untuk melengkapi profil -->
+<div class="modal fade" id="profileIncompleteModal" tabindex="-1" role="dialog" aria-labelledby="profileIncompleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="profileIncompleteModalLabel">Profil Belum Lengkap</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Mohon lengkapi profil Anda untuk menggunakan semua fitur aplikasi dengan optimal.
+      </div>
+      <div class="modal-footer">
+        <a href="{{route('indexUser')}}" class="btn btn-primary">Lengkapi Profil</a>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
+</div> --}}
+
+<div id="profileAlert" class="alert-css">
+  <a href="{{route('indexUser')}}"> 
+    Anda belum lengkap. Mohon lengkapi untuk menggunakan semua fitur aplikasi dengan optimal.
+  </a>
+</div>
+
     <div class="container-scroller">
       <!-- partial:partials/_navbar.html -->
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -31,64 +72,9 @@
           <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
             <span class="mdi mdi-menu"></span>
           </button>
-          {{-- <div class="search-field d-none d-md-block">
-            <form class="d-flex align-items-center h-100" action="#">
-              <div class="input-group">
-                <div class="input-group-prepend bg-transparent">
-                  <i class="input-group-text border-0 mdi mdi-magnify"></i>
-                </div>
-                <input type="text" class="form-control bg-transparent border-0" placeholder="Search projects">
-              </div>
-            </form>
-          </div> --}}
+          
           <ul class="navbar-nav navbar-nav-right">
-            {{-- <li class="nav-item dropdown">
-                <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
-                  <i class="mdi mdi-bell-outline"></i>
-                  <span class="count-symbol bg-danger"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-                  <h6 class="p-3 mb-0">Notifications</h6>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                      <div class="preview-icon bg-success">
-                        <i class="mdi mdi-calendar"></i>
-                      </div>
-                    </div>
-                    <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                      <h6 class="preview-subject font-weight-normal mb-1">Event today</h6>
-                      <p class="text-gray ellipsis mb-0"> Just a reminder that you have an event today </p>
-                    </div>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                      <div class="preview-icon bg-warning">
-                        <i class="mdi mdi-settings"></i>
-                      </div>
-                    </div>
-                    <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                      <h6 class="preview-subject font-weight-normal mb-1">Settings</h6>
-                      <p class="text-gray ellipsis mb-0"> Update dashboard </p>
-                    </div>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                      <div class="preview-icon bg-info">
-                        <i class="mdi mdi-link-variant"></i>
-                      </div>
-                    </div>
-                    <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                      <h6 class="preview-subject font-weight-normal mb-1">Launch Admin</h6>
-                      <p class="text-gray ellipsis mb-0"> New admin wow! </p>
-                    </div>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <h6 class="p-3 mb-0 text-center">See all notifications</h6>
-                </div>
-              </li> --}}
+           
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
                 <div class="nav-profile-img">
@@ -176,13 +162,6 @@
                 
               </a>
             </li>
-            
-            {{-- <li class="nav-item">
-              <a class="nav-link" href="{{route('showKomfirmasi')}}">
-                <span class="menu-title">Antrian</span>
-                <i class="mdi mdi-account-multiple menu-icon"></i>
-              </a>
-            </li> --}}
 
             <li class="nav-item">
               <a class="nav-link" href="{{route('userLanding')}}">
@@ -191,27 +170,12 @@
               </a>
             </li>
            
-            {{-- <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span class="menu-title">Member</span>
-                <i class="mdi mdi-chart-bar menu-icon"></i>
-              </a>
-            </li> --}}
             <li class="nav-item sidebar-actions">
               <span class="nav-link">
                 <div class="border-bottom">
                   <h6 class="font-weight-normal mb-3"></h6>
                 </div>
-                {{-- <button class="btn btn-block btn-lg btn-gradient-primary mt-4"><i class="mdi mdi-exit-to-app"></i> Logout</button> --}}
-                {{-- <div class="mt-4">
-                  <div class="border-bottom">
-                    <p class="text-secondary">Categories</p>
-                  </div>
-                  <ul class="gradient-bullet-list mt-4">
-                    <li>Free</li>
-                    <li>Pro</li>
-                  </ul>
-                </div> --}}
+              
               </span>
             </li>
           </ul>
@@ -235,6 +199,23 @@
       <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Periksa data pengguna dari server-side atau variabel Blade
+        @foreach($welcomeUser as $item)
+          @if($item->nik == "" || $item->no_hp == "" || $item->jenis_kelamin == "" || $item->tempat == "" || $item->tanggal_lahir == "" || $item->alamat == "")
+            // Tampilkan alert secara permanen
+            const alertBox = document.getElementById('profileAlert');
+            alertBox.style.display = 'block';
+          @endif
+        @endforeach
+      });
+    </script>
+    
+    
+
+    
     <!-- plugins:js -->
     <script src="{{asset('assets/admin/assets/vendors/js/vendor.bundle.base.js')}}"></script>
     <!-- endinject -->
@@ -250,6 +231,29 @@
     <script src="{{asset('assets/admin/assets/js/dashboard.js')}}"></script>
     <script src="{{asset('assets/admin/assets/js/todolist.js')}}"></script>
     <!-- End custom js for this page -->
+
+
+    {{-- <script>
+      $(document).ready(function() {
+  // Periksa data pengguna melalui server-side atau variabel dari Blade
+  @foreach($welcomeUser as $item)
+    @if($item->nik == "" || $item->no_hp == "" || $item->jenis_kelamin == "" || $item->tempat == "" || $item->tanggal_lahir == "" || $item->alamat == "")
+      // Tampilkan modal jika data tidak lengkap
+
+      // Delay the modal popup by 3 seconds
+      setTimeout(function() {
+          $('#profileIncompleteModal').modal('show');
+        }, 2000); // 1000 milliseconds = 1 seconds
+
+      $('#profileIncompleteModal').modal({
+        backdrop: 'static', // Modal tidak bisa ditutup dengan klik di luar
+        keyboard: false      // Menonaktifkan tombol ESC
+      });
+    @endif
+  @endforeach
+});
+    </script> --}}
     @yield('script')
+    
   </body>
 </html>

@@ -29,11 +29,15 @@ class RawatJalanController extends Controller
         $bookings_countApp = Booking::where('status', 'pending')->whereDate('tanggal', Carbon::today())->count();
         $pembayarans_countApp = KomfirmasiPembayaran::where('status', 'checking')->count();
         $rawatJalan = RawatJalan::latest()->where('status', 'success')->whereDate('tanggal', Carbon::today())->get();
-        $diagnosaHariIni = RawatJalanDiagnosa::latest()->whereDate('created_at', Carbon::today())
-    ->orWhereDate('updated_at', Carbon::today())
-    ->with('obats')
+        
+        // Diagnosa berdasarkan status 'success' dari RawatJalan
+    $diagnosaHariIni = RawatJalanDiagnosa::whereHas('rawatJalan', function ($query) {
+        $query->where('status', 'success')->whereDate('tanggal', Carbon::today());
+    })
+    ->with('obats', 'rawatJalan')
+    ->latest()
     ->get();
-
+        // dd($diagnosaHariIni);
 
         return view('admin.rawat_jalan.index', compact('rawatJalan', 'bookings_countApp', 'pembayarans_countApp', 'diagnosaHariIni'));
 
@@ -143,7 +147,7 @@ $kartuRekamMedis = compact('rawatJalan', 'diagnosaHariIni');
     public function editDiagnosa($id)
     {
         // Ambil data diagnosa berdasarkan ID Rawat Jalan
-    $rawatJalanDiagnosa = RawatJalanDiagnosa::with(['obat','rawatJalanObat', 'booking', 'user'])->findOrFail($id);
+    $rawatJalanDiagnosa = RawatJalanDiagnosa::with(['rawatJalan','obat','rawatJalanObat', 'booking', 'user'])->findOrFail($id);
 
     // Ambil data obat yang tersedia
     $obatDiagnosa = Obat::latest()->get();

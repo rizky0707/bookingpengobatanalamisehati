@@ -8,7 +8,14 @@
 
 <div class="jumbotron jumbotron-fluid d-flex flex-wrap align-items-center bg-light">
   <div class="container">
-    <h3>Konfirmasi Pembayaran Form</h3>
+    <div class="row">
+      <div class="col">
+        <h3>Konfirmasi Pembayaran Form</h3>
+      </div>
+      <div class="col">
+        <h3 align="right"><a href="{{route('home')}}" class="btn btn-outline-primary">Dashboard</a></h3>
+      </div>
+      </div>
   </div>
 </div>
 
@@ -50,6 +57,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary btn-block">Submit</button>
+    <a href="{{route('showResult')}}" class="btn btn-primary btn-block">Kembali</a>
   </form>
 </div>
 

@@ -70,8 +70,15 @@
 
 <div class="jumbotron jumbotron-fluid d-flex flex-wrap align-items-center bg-light">
   <div class="container">
-  <h3>Booking Form Deploy TEST</h3>
+    <div class="row">
+    <div class="col">
+      <h3>Booking Form</h3>
     </div>
+    <div class="col">
+      <h3 align="right"><a href="{{route('home')}}" class="btn btn-outline-primary">Dashboard</a></h3>
+    </div>
+    </div>
+  </div>
   </div>
 <!-- search box -->
 <div class="container shadow p-4 mb-1 bg-white rounded col-md-8">

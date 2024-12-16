@@ -16,7 +16,21 @@
         <div class="col-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
+                <div class="row">
+                <div class="col">
                 <h4 class="card-title">Create Diagnosa</h4>
+              </div>
+              <div class="col">
+                  <h4 class="card-title" align="right">                
+                    <span class="badge badge-pill badge-dark">
+                    <b>{{$rawatJalanDiagnosa->user->no_rm}}</b>
+                  </span>
+                  </h4>
+                
+              </div>
+              </div>
+                
+
                 <p class="card-description"> PAS </p>
                 <form class="forms-sample" method="POST" action="{{route('updateDiagnosa', $rawatJalanDiagnosa->id)}}">
                   @csrf
@@ -25,6 +39,22 @@
                   <input type="hidden" name="booking_id" value="{{$rawatJalanDiagnosa->booking_id}}">
                   <input type="hidden" name="user_id" value="{{$rawatJalanDiagnosa->user_id}}">
 
+                  
+                  <b>{{$rawatJalanDiagnosa->user->name}}</b> :
+                  {{-- <span>{{\Carbon\Carbon::parse($rawatJalanDiagnosa->user->tanggal_lahir)->age}} tahun<span> --}}
+                 <span class="badge badge-info">
+                  Anamnesa
+                  (
+                  Tensi : {{$rawatJalanDiagnosa->rawatJalan->tensi}}
+                  -
+                  Gula Darah : {{$rawatJalanDiagnosa->rawatJalan->gula_darah}}
+                  -
+                  Asam Urat : {{$rawatJalanDiagnosa->rawatJalan->asam_urat}}
+                  -
+                  Kolesterol : {{$rawatJalanDiagnosa->rawatJalan->kolesterol}}
+                  )
+                </span>
+                <p class="pt-2"></p>
                   <div class="form-group">
                     <label for="penyakit">Penyakit </label>
                     <textarea name="penyakit" id="penyakit" class="form-control" cols="30" rows="10" required>{{ old('penyakit', $rawatJalanDiagnosa->penyakit) }}</textarea>

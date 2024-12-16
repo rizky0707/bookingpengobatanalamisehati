@@ -46,7 +46,8 @@
                   <th> Nomor Rekening</th>
                   <th> Bukti Pembayaran</th>
                   <th> Status</th>
-                  <th> Timestamps</th>
+                  <th>Created at</th>
+                  <th>Update at</th>
                   <th> Action </th>
                 </tr>
               </thead>
@@ -68,7 +69,8 @@
 
 
                   </td>
-                  <td> {{\Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</td>
+                  <td> {{ $item->created_at->diffForHumans() }}</td>
+                  <td> {{ $item->updated_at->diffForHumans() }}</td>
                   <td>
                     @if($item->status == "checking") 
                     <form action="#" method="POST">
@@ -77,7 +79,8 @@
                       @method('DELETE')
                   </form>
                     @else
-                    <a href="https://wa.me/{{$item->user->no_hp}}?text=Terima%20Kasih%20*SUCCESS*%F0%9F%98%8A%0ANo.Pembayaran%20_{{$item->booking->id}}{{$item->user->name}}_%0A*Telah%20Disetujui*%20%E2%9C%94%0A*Pembayaran%20-%20Biaya%20Pedaftaran*%0APelayanan%20%3A%20{{$item->booking->pelayanan}}%0ANama%20Rekening%20%3A%20%20{{$item->nama_pengirim}}%0ANomor%20Rekening%20%3A%20%20{{$item->nomor_rekening_pengirim}}%0A----------------------------------------------%0AHallo%20Sobat%20Sehat%20%F0%9F%99%8C%0ATherapist%20and%20Herbalis%0A%40pengobatanalamisehati%0Awww.pengobatanalamisehati.com" target="_blank" class="btn btn-warning btn-xs">Kirim Feed Back</a> 
+                    {{-- https://wa.me/{{ preg_replace('/^0/', '62', $setting->wa)}} --}}
+                    <a href="https://wa.me/{{ preg_replace('/^0/', '62', $item->user->no_hp)}}?text=Terima%20Kasih%20*SUCCESS*%F0%9F%98%8A%0ANo.Pembayaran%20_{{$item->booking->id}}{{$item->user->name}}_%0A*Telah%20Disetujui*%20%E2%9C%94%0A*Pembayaran%20-%20Biaya%20Pedaftaran*%0APelayanan%20%3A%20{{$item->booking->pelayanan}}%0ANama%20Rekening%20%3A%20%20{{$item->nama_pengirim}}%0ANomor%20Rekening%20%3A%20%20{{$item->nomor_rekening_pengirim}}%0A----------------------------------------------%0AHallo%20Sobat%20Sehat%20%F0%9F%99%8C%0ATherapist%20and%20Herbalis%0A%40pengobatanalamisehati%0Ahttps://booking.pengobatanalamisehati.com/pembayaranHistory" target="_blank" class="btn btn-warning btn-xs">Kirim Feed Back</a> 
                       @endif
                     
                     </td>

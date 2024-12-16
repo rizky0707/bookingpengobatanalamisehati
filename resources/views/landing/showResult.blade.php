@@ -6,7 +6,14 @@
 <link rel="shortcut icon" href="{{asset('assets/admin/assets/images/logo-real.png')}}" />
 <div class="jumbotron jumbotron-fluid d-flex flex-wrap align-items-center bg-light">
   <div class="container">
-  <h3>Show Result</h3>
+  <div class="row">
+      <div class="col">
+        <h3>Show Result</h3>
+      </div>
+      <div class="col">
+        <h3 align="right"><a href="{{route('home')}}" class="btn btn-outline-primary">Dashboard</a></h3>
+      </div>
+      </div>
   </div>
   </div>
 
@@ -174,7 +181,7 @@
     </div>
 
     <div class="form-group" id="komfirmasi">
-      <a href="https://wa.me/{{$setting->wa}}?text=*{{$setting->title}}*%0A*{{ Auth::user()->no_rm }}*%0ATanggal%20%3A%*{{$item->tanggal}}*%0ANama%20%3A%20{{$item->nama}}%0AJam%20%3A%20{{$item->jam}}%0APalayanan%20%3A%20{{$item->pelayanan}}%0AALamat%20%3A%20{{$item->alamat}}%0AKeluhan%20%3A%20_{{$item->keluhan}}_%0A--------------------------------------------------------%0A*TUNJUKAN BUKTI BOOKING WA SAAT DATANG*%0A{{$setting->link}}" class="btn btn-block  btn-primary">2. Lanjutkan Kirim WA Klinik</a>
+      <a href="https://wa.me/{{ preg_replace('/^0/', '62', $setting->wa)}}?text=*{{$setting->title}}*%0A*{{ Auth::user()->no_rm }}*%0ATanggal%20%3A%*{{$item->tanggal}}*%0ANama%20%3A%20{{$item->nama}}%0AJam%20%3A%20{{$item->jam}}%0APalayanan%20%3A%20{{$item->pelayanan}}%0AALamat%20%3A%20{{$item->alamat}}%0AKeluhan%20%3A%20_{{$item->keluhan}}_%0A--------------------------------------------------------%0A*TUNJUKAN BUKTI BOOKING WA SAAT DATANG*%0A{{$setting->link}}" class="btn btn-block  btn-primary">2. Lanjutkan Kirim WA Klinik</a>
       <small class="text-danger">*Lanjutkan kirim ke WA Klinik</small> 
     </div>
       @endforeach
