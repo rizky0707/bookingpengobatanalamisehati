@@ -41,7 +41,7 @@
               <thead>
                 <tr>
                   <th> # </th>
-                  <th> Pelayanan</th>
+                  {{-- <th> Pelayanan</th> --}}
                   <th> Nama Rekening</th>
                   <th> Nomor Rekening</th>
                   <th> Bukti Pembayaran</th>
@@ -55,7 +55,7 @@
                 @foreach ($komfirmasiPembayaran as $item)   
                 <tr>
                   <td> {{$no++}} </td>
-                  <td> {{ $item->booking->pelayanan }} </td>
+                  {{-- <td> {{ $item->booking->pelayanan }} </td> --}}
                   <td> {{$item->nama_pengirim}} </td>
                   <td> {{$item->nomor_rekening_pengirim}} </td>
                   <td> <img src="{{$item->bukti_pembayaran}}" alt="" srcset=""></td>
