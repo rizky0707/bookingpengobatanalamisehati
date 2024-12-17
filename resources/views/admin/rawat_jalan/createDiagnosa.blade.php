@@ -40,7 +40,7 @@
                   <input type="hidden" name="user_id" value="{{$rawatJalanDiagnosa->user_id}}">
 
                   
-                  <b>{{$rawatJalanDiagnosa->user->name}}</b> :
+                  <b>{{$rawatJalanDiagnosa->user->name}} - ({{\Carbon\Carbon::parse($rawatJalanDiagnosa->user->tanggal_lahir)->age}}) tahun</b> :
                   {{-- <span>{{\Carbon\Carbon::parse($rawatJalanDiagnosa->user->tanggal_lahir)->age}} tahun<span> --}}
                  <span class="badge badge-info">
                   Anamnesa
@@ -52,6 +52,8 @@
                   Asam Urat : {{$rawatJalanDiagnosa->rawatJalan->asam_urat}}
                   -
                   Kolesterol : {{$rawatJalanDiagnosa->rawatJalan->kolesterol}}
+                  -
+                  Keluhan : {{$rawatJalanDiagnosa->rawatJalan->keluhan}}
                   )
                 </span>
                 <p class="pt-2"></p>

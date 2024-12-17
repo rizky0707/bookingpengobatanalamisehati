@@ -16,12 +16,33 @@
         <div class="col-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">Create Anamnesa</h4>
+                <div class="row">
+                  <div class="col">
+                  <h4 class="card-title">Create Anamnesa</h4>
+                </div>
+                <div class="col">
+                    <h4 class="card-title" align="right">                
+                      <span class="badge badge-pill badge-dark">
+                      <b>{{$rawatJalan_edit->user->no_rm}}</b>
+                    </span>
+                    </h4>
+                  
+                </div>
+                </div>
+
                 <p class="card-description"> PAS </p>
                 <form class="forms-sample" method="POST" action="{{route('rawatJalan.update', $rawatJalan_edit->id)}}">
                     @csrf
                     @method('PUT')
-                  
+                    <b>{{$rawatJalan_edit->user->name}}</b> :
+                    {{-- <span>{{\Carbon\Carbon::parse($rawatJalanDiagnosa->user->tanggal_lahir)->age}} tahun<span> --}}
+                   <span class="badge badge-info">
+                    Umur
+                    (
+                      {{\Carbon\Carbon::parse($rawatJalan_edit->user->tanggal_lahir)->age}} tahun
+                    )
+                  </span>
+                  <p class="pt-2"></p>
                   <div class="form-group">
                     <label for="tensi">Tensi </label>
                     <input type="text" name="tensi" value="{{ $rawatJalan_edit->tensi }}" class="form-control" id="tensi" placeholder="Cek Tensi">

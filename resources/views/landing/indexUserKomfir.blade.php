@@ -66,7 +66,7 @@
                     <span class="badge badge-warning">Success
                       @endif
                   </td>
-                  <td> {{\Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</td>
+                  <td> {{$item->updated_at->diffForHumans()}}</td>
                   <td>
                     <form>
                         <a href="{{ route('showPembayaran', $item->id) }}" class="btn btn-success btn-xs"><i class="mdi mdi-bullseye"></i> Show</a>  

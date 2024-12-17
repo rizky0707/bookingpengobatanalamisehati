@@ -59,7 +59,7 @@
                   <div class="form-group">
                     <label for="no_hp">No HP</label>
                     <input type="number" name="no_hp" value="{{$user_edit->no_hp}}" class="form-control" id="no_hp" placeholder="6281574706XXX" required>
-                    <small id="emailHelp" class="form-text text-black">Contoh 6281574706XXX angka 0 didepan ganti dengan 62</small>
+                    <small id="emailHelp" class="form-text text-black">Contoh 08778299XXX </small>
                   </div>
                   <div class="form-group">
                     <label for="name">Jenis Kelamin</label>

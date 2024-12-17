@@ -77,6 +77,8 @@ class HomeController extends Controller
     }
 
     
+
+    
     public function operatorHome()
     {
         $bookings = Booking::whereDate('tanggal', Carbon::today())->get();

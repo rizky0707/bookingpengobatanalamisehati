@@ -112,6 +112,9 @@ Route::get('/check-booking-limit', function (Request $request) {
 
 });
 
+Route::get('../admin/booking/{id}', [BookingController::class, 'showBookingDashboard'])->name('showBookingDashboard');
+
+
 Route::get('/showPembayaran/{id}', [KomfirmasiPembayaranController::class, 'showPembayaran'])->name('showPembayaran')->middleware('auth');
 
 

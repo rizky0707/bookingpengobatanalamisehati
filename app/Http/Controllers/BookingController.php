@@ -42,6 +42,20 @@ class BookingController extends Controller
         return view('admin.booking.index', compact('bookings', 'bookings_countApp', 'pembayarans_countApp')); 
     }
 
+    public function showBookingDashboard($id)
+{
+    // $booking = Booking::find($id);
+    $showBookingDashboard = Booking::whereDate('tanggal', Carbon::today())->find($id)->get();
+
+    dd($showBookingDashboard);
+
+    if (!$showBookingDashboard) {
+        return response()->json(['error' => 'Booking not found'], 404);
+    }
+
+    return response()->json($showBookingDashboard);
+}
+
 
 
 

@@ -112,7 +112,6 @@
                     @endif
                 </td>
                 
-
                   <td>
                   
                     @foreach ($item->diagnosa as $diagnosa)
