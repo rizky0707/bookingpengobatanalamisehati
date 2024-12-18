@@ -2,6 +2,46 @@
 @section('title', 'Edit Booking')   
    
 @section('content')
+<!-- Modal Jadwal Booking -->
+<div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">  <!-- Menambahkan modal-lg untuk modal besar -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="scheduleModalLabel">Jadwal Booking</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Berikut adalah jadwal yang tersedia selama 1 bulan ke depan:</p>
+        
+        <!-- Tabel Jadwal -->
+        <table class="table table-bordered table-responsive">
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>Status</th>
+              <th>Jam yang Tersedia</th>
+            </tr>
+          </thead>
+          <tbody id="bookingSchedule">
+            <!-- Jadwal booking akan ditampilkan di sini menggunakan jQuery -->
+          </tbody>
+        </table>
+
+        <!-- Paginasi -->
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center" id="pagination"></ul>
+        </nav>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="content-wrapper">
     <div class="page-header">
       <h3 class="page-title"> Form Booking Edit </h3>
@@ -59,18 +99,19 @@
               <div class="col">
             <div class="form-group">
               <label for="tanggal">Tanggal</label>
-              <input type="date" value="{{$edit->tanggal}}" name="tanggal" class="form-control" id="tanggal" placeholder="Name" readonly>
-              {{-- @if(count($errors) > 0)
-              @foreach ($errors->all() as $error)
-              <small id="emailHelp" class="form-text text-warning">Category sudah ada / Category harus lebih dari 2 huruf</small>
-              @endforeach
-              @endif --}}
+              <input type="date" value="{{$edit->tanggal}}" name="tanggal" class="form-control" id="tanggal" placeholder="tanggal">
+              <small id="emailHelp" class="form-text text-warning">
+                <a href="#" data-toggle="modal" data-target="#scheduleModal">
+                  
+                  <h6><span class="badge badge-info">Cek Jadwal Booking !!!</span></h6>
+                </a>
+              </small>
             </div>
           </div>
                 <div class="col">
                   <div class="form-group">
                     <label for="jam">Jam</label>
-                    <input type="time" value="{{$edit->jam}}" name="jam" class="form-control" id="jam" placeholder="jam" readonly>
+                    <input type="time" value="{{$edit->jam}}" name="jam" class="form-control" id="jam" placeholder="jam">
                     {{-- @if(count($errors) > 0)
                     @foreach ($errors->all() as $error)
                     <small id="emailHelp" class="form-text text-warning">Category sudah ada / Category harus lebih dari 2 huruf</small>
@@ -88,6 +129,7 @@
 
                     </div>
                     </div>
+                    
                     <div class="col">
                       <div class="form-group">
                         <label>Biaya Administrasi</label>
@@ -134,7 +176,60 @@
     
     </div>
   </div>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    
+    $(document).ready(function() {
+        // Event listener saat link "Cek Jadwal Booking" diklik
+        $('a[data-toggle="modal"]').on('click', function(e) {
+            e.preventDefault();  // Mencegah link membuka halaman baru
+    
+            // Kirim request AJAX untuk mendapatkan jadwal dari server
+            $.ajax({
+                type: 'GET',
+                url: '/get-booking-schedule', // Endpoint untuk mengambil jadwal
+                success: function(response) {
+                    var scheduleTable = '';
+                    if (response && response.length > 0) {
+                        response.forEach(function(schedule) {
+                            var statusClass = (schedule.status === 'Penuh') ? 'text-danger' : 'text-success';
+                            
+                            scheduleTable += '<tr>';
+                            scheduleTable += '<td>' + schedule.date + '</td>';
+                            scheduleTable += '<td class="' + statusClass + '">' + schedule.status + '</td>';
+                            
+                            // Menambahkan daftar jam yang tersedia
+                            if (schedule.status === 'Tersedia' && schedule.available_times.length > 0) {
+                                var availableTimes = schedule.available_times.join(', ');
+                                scheduleTable += '<td>' + availableTimes + '</td>';
+                            } else {
+                                scheduleTable += '<td>Tidak ada waktu kosong</td>';
+                            }
+    
+                            scheduleTable += '</tr>';
+                        });
+    
+                        // Menampilkan data jadwal ke dalam tbody
+                        $('#bookingSchedule').html(scheduleTable);
+                    } else {
+                        // Jika tidak ada data
+                        $('#bookingSchedule').html('<tr><td colspan="3">Maaf, tidak ada jadwal yang tersedia.</td></tr>');
+                    }
+                },
+                error: function() {
+                    // Jika gagal mengambil data
+                    $('#bookingSchedule').html('<tr><td colspan="3">Gagal mengambil data jadwal.</td></tr>');
+                }
+            });
+        });
+    });
+    </script>
 @endsection
 @section('script')
-<script src="http://code.jquery.com/jquery-3.4.1.js"></script>
+
 @endsection
+

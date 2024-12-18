@@ -66,6 +66,8 @@
               <thead>
                 <tr>
                   <th> # </th>
+                  <th> BookingID</th>
+                  <th> ERM</th>
                   <th> Nama</th>
                   <th> No HP</th>
                   <th> Pelayanan </th>
@@ -79,6 +81,8 @@
                 <?php $no= 1; ?>
                 @foreach ($bookings as $item)   
                 <td> {{$no++}} </td>
+                  <td> {{$item->id}} </td>
+                  <td> {{$item->user->no_rm}} </td>
                   <td> {{$item->nama}} </td>
                   <td> {{$item->nohp}}</td>
                   <td> {{$item->pelayanan}}</td>

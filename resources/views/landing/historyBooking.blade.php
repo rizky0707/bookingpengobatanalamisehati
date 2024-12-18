@@ -102,6 +102,10 @@
 
                         @elseif($item->status == "pending") 
                         <a href="{{ route('showBooking', $item->id) }}" class="btn btn-success btn-xs"><i class="mdi mdi-bullseye"></i> Show</a> 
+                        {{-- WA ADMIN RUBAH JADWAL --}}
+                        <a href="
+                        https://wa.me/6285715929099?text=*Rubah%20Jadwal*%0ASebelumnya%20%3A%20%0ABookingID%20%3A%20({{$item->id}})%0AERM%20%3A%20%20({{$item->user->no_rm}})%0AJam%20%3A%20({{$item->jam}})%0ATanggal%20%3A%20({{$item->tanggal}})%0A----------------------------------%0APerubahan%20%20%3A%0AJam%20%3A%20(JAM)%0ATanggal%20%3A%20(TANGGAL)%0A........................................%0Ahttps%3A%2F%2Fbooking.pengobatanalamisehati.com%2Fhistory%0A
+                          " class="btn btn-primary btn-xs"><i class="mdi mdi-pencil"></i> Rubah Jadwal</a> 
                         @else
                         <a href="{{ route('showBooking', $item->id) }}" class="btn btn-success btn-xs"><i class="mdi mdi-bullseye"></i> Show</a> 
                         @endif  
