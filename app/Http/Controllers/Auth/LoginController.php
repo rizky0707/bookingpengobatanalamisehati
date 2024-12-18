@@ -49,17 +49,17 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
    
-        if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
+        if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'], 'is_active' => 1)))
         {
-            if(auth()->user()->is_admin == 1) {
+            if(auth()->user()->is_admin == 1 ) {
                 return redirect()->route('admin.home');
             }elseif(auth()->user()->is_admin == 2){
                 return redirect()->route('operatorHome');
             }elseif(auth()->user()->is_admin == 3){
-                return redirect()->route('doctorHome');
+                return redirect()->route('home');
             }
             else{
-                return redirect()->route('home');
+                return redirect()->route('login');
             }        
         }else{
             return redirect()->route('login')->with('error','Email-Address And Password Are Wrong.');

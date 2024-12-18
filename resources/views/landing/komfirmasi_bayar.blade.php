@@ -10,10 +10,10 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <h3>Konfirmasi Pembayaran Form</h3>
+        <h3 class="text-white">Konfirmasi Pembayaran Form</h3>
       </div>
       <div class="col">
-        <h3 align="right"><a href="{{route('home')}}" class="btn btn-outline-primary">Dashboard</a></h3>
+        <h3 align="right"><a href="{{route('home')}}" class="btn btn-outline-light">Dashboard</a></h3>
       </div>
       </div>
   </div>
@@ -23,6 +23,8 @@
 <div class="container shadow p-4 mb-1 bg-white rounded col-md-8">
   <form class="forms-sample" method="POST" action="{{route('komfirmasiPembayaran.store')}}" enctype="multipart/form-data">
     @csrf
+    
+    @if ($booking_id)
     <input type="hidden" name="booking_id" value="{{ $booking_id }}">
 
     <div class="form-group">
@@ -80,3 +82,8 @@
     }
   });
 </script>
+@else
+    <p>Anda Belum Booking. <a href="{{route('bookingLanding')}}" class="btn btn-outline-primary">Booking NOW</a></p>
+@endif
+    
+    

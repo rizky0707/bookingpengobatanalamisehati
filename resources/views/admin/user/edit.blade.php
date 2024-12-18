@@ -11,9 +11,10 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Form Edit User</h4>
-                    <form method="POST" action="{{ route('updateUser', $user->id) }}">
+                    <form  action="{{ route('updateUser', $user->id) }}" method="POST">
                         @csrf
                         @method('PUT')
+                        
                         <div class="form-group">
                             <label for="name">Nama Lengkap</label>
                             <input type="text" name="name" value="{{ old('name', $user->name) }}" class="form-control" id="name" placeholder="Nama Lengkap">
@@ -33,22 +34,16 @@
                             <select class="form-control" name="is_admin">
                                 <option value="1" {{ $user->is_admin == 1 ? 'selected' : '' }}>Admin</option>
                                 <option value="2" {{ $user->is_admin == 2 ? 'selected' : '' }}>Petugas</option>
+                                <option value="3" {{ $user->is_admin == 3 ? 'selected' : '' }}>User</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="is_active">Status</label>
                             <select class="form-control" name="is_active">
-                                <option value="1" {{ $user->is_active ? 'selected' : '' }}>Aktif</option>
-                                <option value="0" {{ !$user->is_active ? 'selected' : '' }}>Non-Aktif</option>
+                                <option value="1" {{ $user->is_active == 1 ? 'selected' : '' }}>Aktif</option>
+                                <option value="0" {{ $user->is_active == 0 ? 'selected' : '' }}>Non-Aktif</option>
                             </select>
                         </div>
-                        {{-- <div class="form-group">
-                            <label for="password">Password Baru</label>
-                            <input type="password" name="password" class="form-control" placeholder="Kosongkan jika tidak ingin mengubah password">
-                            <span class="input-group-text" onclick="togglePasswordVisibility()" style="cursor: pointer;">
-                                👁️
-                            </span>
-                        </div> --}}
 
                         <div class="form-group">
                             <label for="password">Password Baru</label>

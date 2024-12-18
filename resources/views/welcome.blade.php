@@ -68,7 +68,7 @@
           <a class="navbar-brand brand-logo" href="#">PAS</a>
           {{-- <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{{asset('assets/admin/assets/images/logo-mini.svg')}}" alt="logo" /></a> --}}
         </div>
-        <div class="navbar-menu-wrapper d-flex align-items-stretch">
+        <div class="navbar-menu-wrapper d-flex align-items-stretch" style="background-color: #20821b; color: white;">
           <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
             <span class="mdi mdi-menu"></span>
           </button>
@@ -81,13 +81,15 @@
                   <img src="{{asset('assets/admin/assets/images/faces/face1.jpg')}}" alt="image">
                   <span class="availability-status online"></span>
                 </div>
-                <div class="nav-profile-text">
+                <div class="nav-profile-text" style="color: white">
                   @foreach($welcomeUser as $item)
                   @if($item->nik == "" || $item->no_hp == "" || $item->jenis_kelamin == "" || $item->tempat == "" || $item->tanggal_lahir == "" || $item->alamat == "")
-                  <p class="mb-1 text-black">{{ Auth::user()->name }}
+                  <p class="mb-1 text-white">
+                    {{ implode(' ', array_slice(explode(' ', Auth::user()->name), 0, 1)) }}
                     <span class="badge badge-pill badge-danger">1</span>
                   @else 
-                  <p class="mb-1 text-black">{{ Auth::user()->name }}
+                  <p class="mb-1 text-white">
+                    {{ implode(' ', array_slice(explode(' ', Auth::user()->name), 0, 1)) }}
                     @endif
                   @endforeach                      
 
@@ -141,7 +143,9 @@
                   <!--change to offline or busy as needed-->
                 </div>
                 <div class="nav-profile-text d-flex flex-column">
-                  <span class="font-weight-bold mb-2">{{ Auth::user()->name }}</span>
+                  <span class="font-weight-bold mb-2">
+                    {{ implode(' ', array_slice(explode(' ', Auth::user()->name), 0, 1)) }}
+                  </span>
                   <span class="font-weight-bold mb-2">{{ Auth::user()->no_rm }}</span>
                   <span class="text-secondary text-small">Member</span>
                 </div>

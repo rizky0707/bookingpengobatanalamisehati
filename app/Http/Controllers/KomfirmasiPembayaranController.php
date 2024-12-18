@@ -22,6 +22,12 @@ class KomfirmasiPembayaranController extends Controller
     public function index()
     {
         $komfirmasiPembayaran = KomfirmasiPembayaran::latest()->get();
+        // Pastikan pengguna terautentikasi
+        // $user = Auth::user();
+
+        // Periksa apakah pengguna memiliki booking terakhir
+        // $booking_id = optional($user->last_booking)->id ?? null;
+
         $bookings_countApp = Booking::where('status', 'pending')->whereDate('tanggal', Carbon::today())->count();
         $pembayarans_countApp = KomfirmasiPembayaran::where('status', 'checking')->count();
         return view('admin.komfirmasi_pembayaran.index', compact('komfirmasiPembayaran', 'bookings_countApp', 'pembayarans_countApp'));
@@ -74,8 +80,14 @@ class KomfirmasiPembayaranController extends Controller
      */
     public function create()
     {
-        // $user = User::latest()->get();
-        $booking_id = Auth::user()->last_booking->id; // Misalnya mengambil booking_id dari booking terakhir pengguna
+        // Pastikan pengguna terautentikasi
+        $user = Auth::user();
+
+        // Periksa apakah pengguna memiliki booking terakhir
+        $booking_id = optional($user->last_booking)->id ?? null;
+
+
+        // Kirim nilai $booking_id ke view// Misalnya mengambil booking_id dari booking terakhir pengguna
         return view('landing.komfirmasi_bayar', compact('booking_id'));
     }
 

@@ -57,13 +57,13 @@ Route::get('admin/users', [ManageUserController::class, 'index'])->name('manageu
 
 // Rute untuk edit user
 Route::get('admin/users/{id}/edit', [ManageUserController::class, 'editUser'])->name('editUserAdmin');
+Route::put('admin/users/{id}', [ManageUserController::class, 'updateUser'])->name('updateUser')->middleware('is_admin');
 
 Route::get('admin/rawatJalan/{id}/editDiagnosa', [RawatJalanController::class, 'editDiagnosa'])->name('editDiagnosa')->middleware('is_admin');
 Route::put('admin/rawatJalan/updateDiagnosa/{id}', [RawatJalanController::class, 'updateDiagnosa'])->name('updateDiagnosa')->middleware('is_admin');
 Route::get('admin/rawatJalan/kartuRekamMedis', [RawatJalanController::class, 'indexKartuRekamMedis'])->name('indexKartuRekamMedis')->middleware('is_admin');
 
 // Rute untuk update user
-Route::put('admin/users/{id}', [ManageUserController::class, 'updateUser'])->name('updateUser');
 
 Route::get('admin/users/create', [ManageUserController::class, 'creteUser'])->name('creteUser')->middleware('is_admin');
 Route::post('admin/users/create', [ManageUserController::class, 'storeUser'])->name('storeUser')->middleware('is_admin');

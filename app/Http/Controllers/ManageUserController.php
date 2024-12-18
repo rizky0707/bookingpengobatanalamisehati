@@ -87,39 +87,44 @@ class ManageUserController extends Controller
 }
 
 
-    public function updateUser(Request $request, $id)
-    {
-        // Validasi data input
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id, // Email unik kecuali untuk pengguna ini
-            'is_admin' => 'required|in:1,2', // Validasi level
-            'is_active' => 'required|boolean', // Validasi status aktif/non-aktif
-            'password' => 'nullable|string|min:6', // Password opsional tetapi harus minimal 6 karakter jika diisi
-        ]);
-    
-        // // Cari pengguna berdasarkan ID
-        $user = User::findOrFail($id);
-    
-        // Siapkan data yang akan diperbarui
-        $data = [
-            'name' => $request->name,
-            'email' => $request->email,
-            'is_admin' => $request->is_admin,
-            'is_active' => $request->is_active,
-        ];
-    
-        // Perbarui password jika diisi
-        if ($request->filled('password')) {
-            $data['password'] = bcrypt($request->password); // Enkripsi password baru
-        }
-    
-        // Perbarui data pengguna
-        $user->update($data);
-    
-        // Redirect dengan pesan sukses
-        return redirect()->route('manageusers')->with('success', 'User berhasil diperbarui!');
+public function updateUser(Request $request, $id)
+{
+    // Validasi data input
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $id, // Email unik kecuali untuk pengguna ini
+        'is_admin' => 'required', // Validasi level
+        'is_active' => 'required|boolean', // Validasi status aktif/non-aktif
+        'password' => 'nullable|string|min:6', // Password opsional tetapi harus minimal 6 karakter jika diisi
+    ]);
+
+    // Cari pengguna berdasarkan ID
+    $user = User::findOrFail($id);
+    // dd($request);
+
+    // Siapkan data yang akan diperbarui
+    $data = [
+        'name' => $request->name,
+        'email' => $request->email,
+        'is_admin' => $request->is_admin,
+        'is_active' => $request->is_active,
+    ];
+
+    // dd($data);
+
+    // Perbarui password jika diisi
+    if ($request->filled('password')) {
+        $data['password'] = bcrypt($request->password); // Enkripsi password baru
     }
+
+    // dd($data);
+    // Perbarui data pengguna
+    $user->update($data);
+    
+    // Redirect dengan pesan sukses
+    return redirect()->route('manageusers')->with('success', 'User berhasil diperbarui!');
+}
+
 
 
     public function editProfile($id)

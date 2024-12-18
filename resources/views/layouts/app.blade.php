@@ -23,9 +23,9 @@
           <a class="navbar-brand brand-logo" href="#">PAS</a>
           {{-- <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{{asset('assets/admin/assets/images/logo-mini.svg')}}" alt="logo" /></a> --}}
         </div>
-        <div class="navbar-menu-wrapper d-flex align-items-stretch">
+        <div class="navbar-menu-wrapper d-flex align-items-stretch" style="background-color: #20821b">
           <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-            <span class="mdi mdi-menu"></span>
+            <span class="mdi mdi-menu" style="color: white;"></span>
           </button>
           <div class="search-field d-none d-md-block">
             <form class="d-flex align-items-center h-100" action="#">
@@ -94,7 +94,9 @@
                   <span class="availability-status online"></span>
                 </div>
                 <div class="nav-profile-text">
-                  <p class="mb-1 text-black">{{ Auth::user()->name }}</p>
+                  <p class="mb-1 text-white">
+                    {{ Auth::user()->name }}
+                  </p>
                 </div>
               </a>
               <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">

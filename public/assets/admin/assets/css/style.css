@@ -7288,7 +7288,7 @@ button.bg-danger:focus {
   background-color: #fe496d !important; }
 
 .bg-light {
-  background-color: #f8f9fa !important; }
+  background-color: #20821b !important; }
 
 a.bg-light:hover, a.bg-light:focus,
 button.bg-light:hover,
@@ -13005,7 +13005,7 @@ dl {
         .navbar .navbar-menu-wrapper .navbar-nav .nav-item .nav-link i {
           font-size: 1.25rem; }
       .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .dropdown-toggle:after {
-        color: #b66dff;
+        color: #fff;
         font-size: 1rem; }
       .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .dropdown-menu {
         border: none;

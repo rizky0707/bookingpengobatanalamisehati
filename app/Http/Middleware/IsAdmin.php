@@ -16,14 +16,18 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->check() && auth()->user()->is_admin == 1){
+        if(auth()->check() && auth()->user()->is_admin == 1 && auth()->user()->is_active == 1){
             return $next($request);
-        }elseif(auth()->check() && auth()->user()->is_admin == 2){
+
+            // operator
+        }elseif(auth()->check() && auth()->user()->is_admin == 2 && auth()->user()->is_active == 1){
             return $next($request);
-        }elseif(auth()->check() && auth()->user()->is_admin == 3){
+
+            // user
+        }elseif(auth()->check() && auth()->user()->is_admin == 3 && auth()->user()->is_active == 1){
             return $next($request);
         }else{
-          return redirect('home')->with('error',"You don't have admin access.");
+          return redirect('login')->with('error',"You don't have admin access.");
         }
     }
 }

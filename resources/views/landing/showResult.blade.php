@@ -8,10 +8,10 @@
   <div class="container">
   <div class="row">
       <div class="col">
-        <h3>Show Result</h3>
+        <h3 class="text-white">Show Result</h3>
       </div>
       <div class="col">
-        <h3 align="right"><a href="{{route('home')}}" class="btn btn-outline-primary">Dashboard</a></h3>
+        <h3 align="right"><a href="{{route('home')}}" class="btn btn-outline-light">Dashboard</a></h3>
       </div>
       </div>
   </div>

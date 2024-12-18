@@ -28,6 +28,7 @@
               </button>
             </div>
             @endif
+            
             <div class="row">
               <div class="col">
               <h6 class="m-0 font-weight-bold text-primary card-title">DataTables Users</h6>
@@ -43,7 +44,9 @@
                   <th> # </th>
                   <th> Name</th>
                   <th> Email </th>
-                  <th> Register </th>
+                  <th> Level </th>
+                  <th> Status </th>
+                  <th> Tanggal </th>
                   <th> Action </th>
                 </tr>
               </thead>
@@ -54,7 +57,16 @@
                   <td> {{$no++}} </td>
                   <td> {{$item->name}} </td>
                   <td> {{$item->email}}</td>
-                  <td> {{$item->created_at->format('Y-m-d')}}</td>
+                  <td>
+                    {{ $item->is_admin == 1 ? 'admin' : ($item->is_admin == 2 ? 'operator' : 'user') }}
+                </td>
+                <td>
+                 <span class="badge badge-gradient-info">  
+                  {{ $item->is_active == 1 ? 'active' : 'non-aktif' }}
+                 </span>
+              </td>
+                
+                  <td> {{$item->updated_at->format('Y-m-d')}}</td>
                   <td>
                     <form action="#" method="POST">
                         <a href="{{ route('editUserAdmin', $item->id) }}" class="btn btn-success btn-sm">Edit</a>
