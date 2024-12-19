@@ -127,12 +127,12 @@
                       <a href="{{ route('booking.show', $item->id) }}" class="btn btn-success btn-xs"><i class="mdi mdi-bullseye"></i> Show</a> 
 
                         @elseif($item->status == "pending") 
-                        <form action="{{ route('booking.destroy', $item->id) }}" method="POST">
+                        <form action="#" method="POST">
                           <a href="{{ route('booking.edit', $item->id) }}" class="btn btn-success btn-sm"><i class="mdi mdi-pencil-box-outline"></i>Edit</a> 
                           @csrf
                           @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" 
-                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"><i class="mdi mdi-delete"></i> Delete</button>
+                        {{-- <button type="submit" class="btn btn-danger btn-sm" 
+                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"><i class="mdi mdi-delete"></i> Delete</button> --}}
                       </form>
                       @else 
                       <a href="{{ route('booking.show', $item->id) }}" class="btn btn-success btn-xs"><i class="mdi mdi-bullseye"></i> Show</a> 
