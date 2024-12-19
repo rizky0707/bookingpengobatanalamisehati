@@ -58,7 +58,7 @@
 
                   <div class="form-group">
                     <label for="no_hp">No HP</label>
-                    <input type="number" name="no_hp" value="{{$user_edit->no_hp}}" class="form-control" id="no_hp" placeholder="6281574706XXX" required>
+                    <input type="number" name="no_hp" value="{{$user_edit->no_hp}}" class="form-control" id="no_hp" placeholder="Nomor HP" required>
                     <small id="emailHelp" class="form-text text-black">Contoh 08778299XXX </small>
                   </div>
                   <div class="form-group">

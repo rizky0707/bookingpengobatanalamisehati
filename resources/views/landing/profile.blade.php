@@ -40,7 +40,7 @@
                 <div class="col">
                     <div class="form-group">
                       <label for="status">Status</label>
-                      @if( Auth::user()->is_admin == 0 )
+                      @if( Auth::user()->is_admin == 3 )
                       <input type="text" name="member" value="Member" class="form-control" id="status" readonly>
                       @endif
                     </div>

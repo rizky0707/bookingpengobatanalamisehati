@@ -60,7 +60,7 @@
                   <div class="form-group">
                     <label for="wa">No Wa</label>
                     <input type="number" value="{{$edit->wa}}" name="wa" class="form-control" id="title" required>
-                    <small id="emailHelp" class="form-text text-warning">Contoh 6281574706XXX</small>
+                    <small id="emailHelp" class="form-text text-warning">Contoh 081574706XXX</small>
                   </div>
 
                   <div class="form-group">

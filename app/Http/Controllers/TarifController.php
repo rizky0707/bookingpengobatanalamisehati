@@ -35,9 +35,10 @@ class TarifController extends Controller
      */
     public function create()
     {
-        // $category_service = CategoryService::all();
-        // $doctors = Doctor::all();
-        return view('admin.tarif.create');
+        $bookings_countApp = Booking::where('status', 'pending')->whereDate('tanggal', Carbon::today())->count();
+        $pembayarans_countApp = KomfirmasiPembayaran::where('status', 'checking')->count();
+
+        return view('admin.tarif.create', compact('bookings_countApp', 'pembayarans_countApp'));
     }
 
     // public function GetSubCatAgainstMainCatEdit($id){
