@@ -76,6 +76,7 @@ class SettingController extends Controller
      */
     public function update(Request $request, Setting $setting)
     {
+        // dd($request);
 
         $setting->update($request->all());
         return redirect()->back()->with('success', 'Data Berhasil Di Update');

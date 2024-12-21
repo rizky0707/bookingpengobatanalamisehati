@@ -6,6 +6,23 @@
 <!-- End layout styles -->
 {{-- <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css"> --}}
 
+{{-- <style>
+  table {
+      border-collapse: collapse;
+      width: 100%;
+  }
+
+  table, th, td {
+      border: 1px solid black;
+  }
+
+  th, td {
+      padding: 8px;
+      text-align: left;
+  }
+</style> --}}
+
+
 <link rel="shortcut icon" href="{{asset('assets/admin/assets/images/real-logo.png')}}" />
 <!-- Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -42,7 +59,7 @@
         <p>Berikut adalah jadwal yang tersedia selama 1 bulan ke depan:</p>
         
         <!-- Tabel Jadwal -->
-        <table class="table table-bordered table-responsive">
+        <table class="table table-bordered">
           <thead>
             <tr>
               <th>Tanggal</th>

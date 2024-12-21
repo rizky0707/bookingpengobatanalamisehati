@@ -13,7 +13,9 @@ class ManageUserController extends Controller
     //Call users Data
     public function index()
     {
-        $users = User::all();
+        $users = User::whereNotIn('id', [1, 2, 3])->get();
+
+        // dd($users);
         $bookings_countApp = Booking::where('status', 'pending')->whereDate('tanggal', Carbon::today())->count();
         $pembayarans_countApp = KomfirmasiPembayaran::where('status', 'checking')->count();
 

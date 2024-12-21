@@ -27,6 +27,7 @@
                 <form class="forms-sample" method="POST" action="{{route('setting.update', $edit->id)}}">
                     @csrf
                     @method('PUT')
+                    
                   <div class="form-group">
                     <label for="title">Title</label>
                     <input type="text" value="{{$edit->title}}" name="title" class="form-control" id="title" required>

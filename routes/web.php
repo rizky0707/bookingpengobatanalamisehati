@@ -72,11 +72,6 @@ Route::get('profile/edit/{id}', [ManageUserController::class, 'editProfile'])->n
 Route::get('profile/', [ManageUserController::class, 'indexUser'])->name('indexUser')->middleware('auth');
 Route::put('profile/update/{user}', [ManageUserController::class, 'updateProfile'])->name('updateProfile')->middleware('auth');
 
-
-
-
-
-
 Route::resource('admin/service', ServiceController::class)->middleware('is_admin');
 Route::resource('admin/booking', BookingController::class)->middleware('is_admin');
 Route::resource('admin/setting', SettingController::class)->middleware('is_admin');

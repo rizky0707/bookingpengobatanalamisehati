@@ -3,54 +3,7 @@
 
 @section('style')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" type="text/css">
-<style>
-  .container {
-          width: 100%;
-          max-width: 800px;
-          margin: 0 auto;
-          /* border: 1px solid #ddd; */
-          /* padding: 20px; */
-          position: relative;
-      }
-      .header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-      }
-      .title {
-          font-size: 18px;
-          font-weight: bold;
-      }
-      .address {
-          font-size: 14px;
-          color: #555;
-      }
-      .logo {
-          width: 100px;
-          height: auto;
-      }
-      .footer {
-          text-align: center;
-          margin-top: 40px;
-          font-size: 14px;
-          color: #555;
-      }
-      .footer a {
-          color: #007BFF;
-          text-decoration: none;
-      }
-      .footer a:hover {
-          text-decoration: underline;
-      }
-      .divider {
-          margin: 20px 0;
-          border-top: 1px solid #ddd;
-      }
-      .content {
-            text-align: center;
-            padding: 40px;
-        }
-</style>
+
 @endsection
 @section('content')
 <div class="content-wrapper">
@@ -78,68 +31,26 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-  <div class="modal-body">
+      <div class="modal-body">
         <!-- Isi Modal -->
-  <div class="container">
-    <div class="header">
-        <div>
-            <div class="title">PENGOBATAN ALAMI SEHATI</div>
-            <div class="address">Ruko Notredame, Jl. Deltamas Boulevard No 20</div>
-        </div>
-        <img src="{{asset('assets/admin/assets/images/logo-print.png')}}" alt="Logo Pengobatan Alami Sehati" class="logo">
-    </div>
-    <div class="content">
-      <h1>REKAM MEDIS</h1>
-      <h2>KARTU PASIEN RAWAT JALAN</h2>
-  </div>
-  <div class="container">
-<div class="row">
-  <div class="col">
-    <h3>No Rekam</h3>
-  </div>
-  <div class="col text-right">
-    <h3 id="rekamMedisID"></h3>
-  </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <strong>No NIK:</strong> <span id="nik"></span><br>
-      <strong>Nama Pasien:</strong> <span id="namaPasien">  </span><br>
-      <strong>Umur:</strong> <span id="umur"></span></span>
-    </div>
-    <div class="col text-right">
-      <strong>Alamat:</strong> <span id="alamat"></span><br>
-      <strong>Jenis Kelamin:</strong> <span id="jenis_kelamin"></span><br>
-      <strong>No HP:</strong> <span id="noHP"></span><br>
-    </div>
-  </div>
-    <p class="pt-4"></p>
-
-    <table class="table table-bordered table-responsive" style="border: 1px solid black;">
-        <thead>
-            <tr>
-                <th>Hari / Tanggal</th>
-                <th>Anamnetis</th>
-                <th>Diagnosa</th>
-                <th>Keterangan / Saran Produk</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody id="modalTableBody"  style="border: 1px solid black;">
-        </tbody>
-    </table>
-</div>
-    
-    <div class="footer">
-      <img src="http://localhost:8000/assets/admin/assets/images/garis-bawah.png" width="300px" alt="Logo Pengobatan Alami Sehati" class="logo" style="
-    width: 200px;
-">
-      <br>
-        +62 857-1592-9099 <br>
-       pengobatanalamisehati@gmail.com<br>
-        www.pengobatanalamisehati.com
-    </div>
-   </div>
+        <ul>
+          <li><strong>E-RM:</strong> <span id="modalE-RM"></span></li>
+          <li><strong>Nama:</strong> <span id="modalNama"></span></li>
+          <li><strong>Usia:</strong> <span id="modalUsia"></span></li>
+          <li><strong>Anamnesa:</strong> 
+            <ul>
+              <li>Tensi: <span id="modalTensi"></span></li>
+              <li>Gula Darah: <span id="modalGula"></span></li>
+              <li>Asam Urat: <span id="modalAsam"></span></li>
+              <li>Kolesterol: <span id="modalKolesterol"></span></li>
+            </ul>
+          </li>
+          <li><strong>Penyakit:</strong> <span id="modalPenyakit"></span></li>
+          <li><strong>Obat:</strong> <span id="modalObat"></span></li>
+          <li><strong>Jumlah:</strong> <span id="modalJumlah"></span></li>
+          <li><strong>Tanggal:</strong> <span id="modalTanggal"></span></li>
+          <li><strong>Status:</strong> <span id="modalStatus"></span></li>
+        </ul>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -259,10 +170,6 @@
                           <button type="button" 
                           class="btn btn-success btn-sm btnShowModal" 
                           data-erm="{{$item->user->no_rm}}"
-                          data-nik="{{$item->user->nik}}"
-                          data-alamat="{{$item->alamat}}"
-                          data-jenis_kelamin="{{$item->user->jenis_kelamin}}"
-                          data-nohp="{{$item->nohp}}"
                           data-nama="{{$item->nama}}"
                           data-usia="{{\Carbon\Carbon::parse($item->user->tanggal_lahir)->age}} tahun"
                           data-tensi="{{$item->tensi}}"
@@ -289,23 +196,24 @@
           </div>
         </div>
       </div>
+    </div>
   </div>
     
 @endsection
 @section('script')
 <script>
-  $(document).ready(function () {
-    // Initialize DataTables
-    $('#example').DataTable();
+  $(document).ready(function() {
+  $('#example').DataTable();
+  $('#rawatjalan').DataTable();
+  $('#diagnosa').DataTable();
 
-    // Ketika tombol Show Modal diklik
+  } );
+</script> 
+<script>
+  $(document).ready(function () {
     $('.btnShowModal').on('click', function () {
-      // Ambil data dari tombol
+      // Ambil data dari atribut tombol
       let erm = $(this).data('erm');
-      let nik = $(this).data('nik');
-      let alamat = $(this).data('alamat');
-      let jenis_kelamin = $(this).data('jenis_kelamin');
-      let nohp = $(this).data('nohp');
       let nama = $(this).data('nama');
       let usia = $(this).data('usia');
       let tensi = $(this).data('tensi');
@@ -318,39 +226,22 @@
       let tanggal = $(this).data('tanggal');
       let status = $(this).data('status');
 
-      // Masukkan data ke elemen modal
-      $('#showModal .modal-title').text(`Detail Rekam Medis: ${nama}`);
-      $('#showModal #rekamMedisID').text(erm);
-      $('#showModal #nik').text(nik);
-      $('#showModal #namaPasien').text(nama);
-      $('#showModal #umur').text(usia);
-      $('#showModal #alamat').text(alamat);
-      $('#showModal #jenis_kelamin').text(jenis_kelamin);
-      $('#showModal #noHP').text(nohp);
-
-      // Isi data tabel modal
-      let anamnesis = `
-        <ul>
-          <li>Tensi: ${tensi}</li>
-          <li>Gula Darah: ${gula}</li>
-          <li>Kolesterol: ${kolesterol}</li>
-          <li>Asam Urat: ${asam}</li>
-        </ul>`;
-      let row = `
-        <tr  style="border: 1px solid black;">
-          <td>${tanggal}</td>
-          <td>${anamnesis}</td>
-          <td>${penyakit}</td>
-          <td>${obat}</td>
-          <td>${status}</td>
-        </tr>`;
-
-      // Tambahkan baris ke tabel di modal
-      $('#modalTableBody').empty().append(row);
+      // Isi data ke modal
+      $('#modalE-RM').text(erm);
+      $('#modalNama').text(nama);
+      $('#modalUsia').text(usia);
+      $('#modalTensi').text(tensi);
+      $('#modalGula').text(gula);
+      $('#modalAsam').text(asam);
+      $('#modalKolesterol').text(kolesterol);
+      $('#modalPenyakit').text(penyakit);
+      $('#modalObat').text(obat);
+      $('#modalJumlah').text(jumlah);
+      $('#modalTanggal').text(tanggal);
+      $('#modalStatus').text(status);
     });
   });
 </script>
-
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>

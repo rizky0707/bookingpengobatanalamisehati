@@ -15,6 +15,9 @@ class Setting extends Model
         'favicon',
         'wa',
         'link',
+        'nama_bank',
+        'nama_rek',
+        'no_rek',
     ];
 
 }
