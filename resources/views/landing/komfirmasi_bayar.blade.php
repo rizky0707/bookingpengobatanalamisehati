@@ -21,7 +21,7 @@
 
 <!-- search box -->
 <div class="container shadow p-4 mb-1 bg-white rounded col-md-8">
-  <form class="forms-sample" method="POST" action="{{route('komfirmasiPembayaran.store')}}" enctype="multipart/form-data">
+  <form class="forms-sample" method="POST" action="{{route('storePembayaranUser')}}" enctype="multipart/form-data">
     @csrf
     
     @if ($booking_id)

@@ -111,7 +111,8 @@
                 <div class="col">
                   <div class="form-group">
                     <label for="jam">Jam</label>
-                    <input type="time" value="{{$edit->jam}}" name="jam" class="form-control" id="jam" placeholder="jam">
+                    <input type="time" value="{{$edit->jam}}" name="jam" class="form-control" id="jam" placeholder="jam" step="3600" 
+                    @guest readonly @endguest>
                     {{-- @if(count($errors) > 0)
                     @foreach ($errors->all() as $error)
                     <small id="emailHelp" class="form-text text-warning">Category sudah ada / Category harus lebih dari 2 huruf</small>

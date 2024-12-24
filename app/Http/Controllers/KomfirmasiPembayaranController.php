@@ -78,7 +78,7 @@ class KomfirmasiPembayaranController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function createPembayaranUser()
     {
         // Pastikan pengguna terautentikasi
         $user = Auth::user();
@@ -98,7 +98,7 @@ class KomfirmasiPembayaranController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(Request $request)
+    public function storePembayaranUser(Request $request)
 {
     // Validate the incoming request
     $this->validate($request, [
@@ -151,7 +151,7 @@ class KomfirmasiPembayaranController extends Controller
         //
     }
 
-    public function showPembayaran($id)
+    public function showPembayaranUser($id)
     {
         $show_pembayaran = KomfirmasiPembayaran::where('user_id', \Auth::user()->id)->findorfail($id);
         $welcomeUser = User::where('id', \Auth::user()->id)->get();

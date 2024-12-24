@@ -69,7 +69,7 @@
                   <td> {{$item->updated_at->diffForHumans()}}</td>
                   <td>
                     <form>
-                        <a href="{{ route('showPembayaran', $item->id) }}" class="btn btn-success btn-xs"><i class="mdi mdi-bullseye"></i> Show</a>  
+                        <a href="{{ route('showPembayaranUser', $item->id) }}" class="btn btn-success btn-xs"><i class="mdi mdi-bullseye"></i> Show</a>  
                     </form>
                     </td>
                 </tr>

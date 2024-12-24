@@ -176,7 +176,7 @@
 </div>
 
           <div class="form-group" id="komfirmasi">
-      <a href="{{route('komfirmasiPembayaran.create')}}" class="btn btn-block  btn-primary">1. Konfirmasi Pembayaran</a>
+      <a href="{{route('createPembayaranUser')}}" class="btn btn-block  btn-primary">1. Konfirmasi Pembayaran</a>
       <small class="text-danger">*Lanjutkan dengan Konfirmasi Pembayaran sebagai bukti BOOKING </small> 
     </div>
 

@@ -37,7 +37,7 @@
                 </div>
                 </div>
             </p>
-            <table id="example" class="table table-bordered">
+            <table id="example" class="table table-bordered table-responsive">
               <thead>
                 <tr>
                   <th>#</th>

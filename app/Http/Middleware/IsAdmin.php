@@ -19,13 +19,13 @@ class IsAdmin
         if(auth()->check() && auth()->user()->is_admin == 1 && auth()->user()->is_active == 1){
             return $next($request);
 
-            // operator
-        }elseif(auth()->check() && auth()->user()->is_admin == 2 && auth()->user()->is_active == 1){
-            return $next($request);
+        //     // operator
+        // }elseif(auth()->check() && auth()->user()->is_admin == 2 && auth()->user()->is_active == 1){
+        //     return $next($request);
 
-            // user
-        }elseif(auth()->check() && auth()->user()->is_admin == 3 && auth()->user()->is_active == 1){
-            return $next($request);
+        //     // user
+        // }elseif(auth()->check() && auth()->user()->is_admin == 3 && auth()->user()->is_active == 1){
+        //     return $next($request);
         }else{
           return redirect('login')->with('error',"You don't have admin access.");
         }

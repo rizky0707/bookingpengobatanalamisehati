@@ -187,13 +187,22 @@
     <div class="col">
       <div class="form-group">
         <label for="jam">Jam</label>
-        <input type="time" name="jam" value="{{old('jam')}}" class="form-control" placeholder="jam" @guest readonly @endguest> 
+        <input 
+          type="time" 
+          name="jam" 
+          value="{{ old('jam') }}" 
+          class="form-control" 
+          placeholder="jam" 
+          step="3600" 
+          @guest readonly @endguest> 
+          <small id="jam" class="form-text text-dark">Contoh : 09:00 (Cek Jam Tersedia)</small>
+          
         @if($errors->has('jam'))
-        <small id="jam" class="form-text text-warning">{{ $errors->first('jam') }}</small>
-    @endif
+          <small id="jam" class="form-text text-warning">{{ $errors->first('jam') }}</small>
+        @endif
+      </div>
+    </div>
     
-      </div>
-      </div>
   </div>
   
   <div class="row">
