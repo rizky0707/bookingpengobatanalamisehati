@@ -220,12 +220,16 @@
   <div class="col">
     <div class="form-group">
       <label for="pelayanan">Pelayanan</label>
-        <select class="form-control"  name="pelayanan" id="pelayanan" @guest readonly @endguest>
-          <option value="0" disabled="true" selected="true">-- Pilih Pelayanan --</option>
-          @foreach($service as $item)
-          <option value="{{$item->pelayanan}}">{{$item->pelayanan}}</option>
-          @endforeach
-        </select>
+      <select class="form-control" name="pelayanan" id="pelayanan" @guest readonly @endguest>
+        <option value="0" disabled="true" selected="true">-- Pilih Pelayanan --</option>
+        
+        @foreach($service as $item)
+          <option value="{{ $item->pelayanan }}" 
+                  {{ old('pelayanan') == $item->pelayanan ? 'selected' : '' }}>
+            {{ $item->pelayanan }}
+          </option>
+        @endforeach
+      </select>
         @if($errors->has('pelayanan'))
         <small id="emailHelp" class="form-text text-warning">{{ $errors->first('pelayanan') }}</small>
     @endif
@@ -260,7 +264,7 @@
 
 <div class="form-group">
   <label for="keluhan">Keluhan</label>
-  <textarea name="keluhan"  class="form-control" cols="30" rows="10" @guest readonly @endguest></textarea>
+  <textarea name="keluhan"  class="form-control" cols="30" rows="10" @guest readonly @endguest>{{old('keluhan')}}</textarea>
   @if($errors->has('keluhan'))
     <small id="emailHelp" class="form-text text-warning">{{ $errors->first('keluhan') }}</small>
 @endif
@@ -430,7 +434,7 @@ $('input[name="jam"]').on('change', function() {
     // Check if the selected time is outside business hours
     if (selectedTime < startTime || selectedTime >= endTime) {
       // Show alert if time is outside working hours
-      alert("The selected time is outside business hours. Please choose a time between 09:00 and 21:00.");
+      alert("Pilihan di luar jam Operasional. Pilih Jam antara 09:00 and 21:00. (Cek Jadwal Booking!!)");
       $(this).val(''); // Optionally clear the input if it's invalid
     }
   });
