@@ -59,12 +59,14 @@
                   <td> {{ $item->user->name }} </td>
                   <td> {{$item->nama_pengirim}} </td>
                   <td> {{$item->nomor_rekening_pengirim}} </td>
-                  <td> <img src="../{{$item->bukti_pembayaran}}" alt="" srcset=""></td>
+                  <td> <img src="../{{$item->bukti_pembayaran}}" alt="Bukti Pembayaran"></td>
                   <td> 
                     @if($item->status == "checking") 
                     <span class="badge badge-gradient-danger">Checking
-                    @else
+                    @elseif($item->status == "success")
                     <span class="badge badge-warning">Success
+                      @else
+                    <span class="badge badge-info">Tester
                       @endif
 
 
@@ -89,9 +91,10 @@
                     empty($item->nomor_rekening_pengirim)
                     )
                       Data tidak Lengkap
-                    @else
+                      @elseif($item->status == "success")
                     <a href="https://wa.me/{{ preg_replace('/^0/', '62', $item->user->no_hp ?? 'tidak ada' )}}?text=Terima%20Kasih%20*SUCCESS*%F0%9F%98%8A%0ANo.Pembayaran%20_{{$item->booking->id ?? 'tidak ada'}}{{$item->user->name}}_%0A*Telah%20Disetujui*%20%E2%9C%94%0A*Pembayaran%20-%20Biaya%20Pedaftaran*%0APelayanan%20%3A%20{{$item->booking->pelayanan ?? 'tidak ada'}}%0ANama%20Rekening%20%3A%20%20{{$item->nama_pengirim ?? 'tidak ada'}}%0ANomor%20Rekening%20%3A%20%20{{$item->nomor_rekening_pengirim ?? 'tidak ada'}}%0A----------------------------------------------%0AHallo%20Sobat%20Sehat%20%F0%9F%99%8C%0ATherapist%20and%20Herbalis%0A%40pengobatanalamisehati%0Ahttps://booking.pengobatanalamisehati.com/pembayaranHistory" target="_blank" class="btn btn-warning btn-xs">Kirim Feed Back</a> 
-
+                      @else 
+                    <span class="badge badge-info">Selesai Tester</span>
                       @endif
                       @endif
                     

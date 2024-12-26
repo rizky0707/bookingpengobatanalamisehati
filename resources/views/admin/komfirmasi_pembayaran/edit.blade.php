@@ -46,6 +46,12 @@
                       <input class="form-check-input" type="radio" name="status" id="exampleRadios1" value="success" {{ $edit->status == 'success' ? 'checked' : ''}}>
                       <label class="form-check-label" for="inlineRadio2">Success</label>
                     </div>
+                    <div class="form-group form-check-inline">
+                      <input class="form-check-input" type="radio" name="status" id="exampleRadios1" value="tester" {{ $edit->status == 'tester' ? 'checked' : ''}}>
+                      <label class="form-check-label" for="inlineRadio2">
+                    <span class="badge badge-info">Tester</span>
+                      </label>
+                    </div>
                 </div>
                   <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
                   {{-- <button class="btn btn-light">Cancel</button> --}}

@@ -57,8 +57,6 @@ class BookingController extends Controller
 }
 
 
-
-
     // Menyediakan data jadwal selama 1 bulan ke depan
     public function getBookingSchedule()
     {
@@ -84,6 +82,7 @@ class BookingController extends Controller
     }
 
     // Mengecek apakah tanggal sudah penuh (hanya 1 booking per hari)
+    // ini untuk table
     private function isDateFullyBooked($date)
     {
         return Booking::where('tanggal', $date->toDateString())->count() >= 10;
@@ -122,6 +121,23 @@ private function getAvailableTimes($date)
     return $availableTimes;
 }
 
+// Check if a specific time is available for booking
+public function checkTimeAvailability(Request $request)
+{
+    $date = $request->tanggal;
+    $time = $request->jam;
+
+    // Check if the selected time is already booked
+    $isBooked = Booking::whereDate('tanggal', $date)
+                        ->whereTime('jam', $time)
+                        ->exists();
+
+    if ($isBooked) {
+        return response()->json(['error' => true, 'message' => 'Jam ini sudah terisi.']);
+    }
+
+    return response()->json(['error' => false]);
+}
 
 
     public function print_booking()
@@ -242,10 +258,7 @@ private function getAvailableTimes($date)
             'nama' => 'required|min:2',
             'nohp' => 'required|min:11',
             'jam' => 'required',
-            // 'id_category' => 'required',
             'pelayanan' => 'required',
-            // 'id_doctor' => 'required',
-            // 'id_tarif' => 'required',
             'tanggal' => 'required|date',
             'alamat' => 'required|min:2',
             'keluhan' => 'required|min:2',
@@ -256,7 +269,19 @@ private function getAvailableTimes($date)
 
     // Check if the number of bookings exceeds 4
     if ($existingBookings >= 10) {
-        return redirect()->back()->with('error', 'Sorry, there are already 10 bookings for this date. Please choose another date.');
+        return redirect()->back()->with('error', 'Booking Sudah Penuh!');
+    }
+
+    $date = $request->tanggal;
+    $time = $request->jam;
+
+    // Check if the selected time is already booked
+    $isBooked = Booking::whereDate('tanggal', $date)
+                        ->whereTime('jam', $time)
+                        ->exists();
+
+    if ($isBooked) {
+        return redirect()->back()->with('error', 'Jam Sudah Terisi');
     }
 
     // dd($request);

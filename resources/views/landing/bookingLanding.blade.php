@@ -96,9 +96,19 @@
     </div>
     </div>
   </div>
-  </div>
+</div>
 <!-- search box -->
 <div class="container shadow p-4 mb-1 bg-white rounded col-md-8">
+
+  @if(session('error'))
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong>Gagal !</strong> {{ session('error') }}.
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+@endif
+
   <form class="forms-sample" method="POST" action="{{route('storeBookingLanding')}}/#WA">
     @csrf
    
@@ -189,6 +199,7 @@
         <label for="jam">Jam</label>
         <input 
           type="time" 
+          id = "jam"
           name="jam" 
           value="{{ old('jam') }}" 
           class="form-control" 
@@ -386,6 +397,47 @@ $(document).ready(function() {
 });
 
 
+// Check if the selected time is already booked
+$('input[name="jam"]').on('change', function() {
+        var selectedDate = $('input[name="tanggal"]').val();
+        var selectedTime = $(this).val();
+
+        // Send an AJAX request to check if the time is available
+        $.ajax({
+            type: 'GET',
+            url: '/check-time-availability', // The route for checking time availability
+            data: {
+                tanggal: selectedDate,
+                jam: selectedTime
+            },
+            success: function(response) {
+                if (response.error) {
+                    alert(response.message); // Show alert if time is already booked
+                    $('input[name="jam"]').val(''); // Reset the time input
+                }
+            }
+        });
+    });
+
+    $(document).ready(function() {
+  $('#jam').on('change', function() {
+    var selectedTime = $(this).val(); // Get the selected time
+
+    // Define business hours: 09:00 AM to 21:00 PM
+    var startTime = '09:00';
+    var endTime = '21:00';
+
+    // Check if the selected time is outside business hours
+    if (selectedTime < startTime || selectedTime >= endTime) {
+      // Show alert if time is outside working hours
+      alert("The selected time is outside business hours. Please choose a time between 09:00 and 21:00.");
+      $(this).val(''); // Optionally clear the input if it's invalid
+    }
+  });
+});
+
+
+
 
 
 
@@ -422,81 +474,6 @@ $(document).ready(function() {
 //             }
 //         });
 //     });
-// });
-
-
-
-//   $(document).ready(function () {
-
-//   $('#sub_category_name').on('change', function () {
-//   let id = $(this).val();
-//   $('#sub_category').empty();
-//   $('#sub_category').append(`<option value="0" disabled selected>Processing...</option>`);
-//   $.ajax({
-//   type: 'GET',
-//   url: 'GetService/' + id,
-//   success: function (response) {
-//   var response = JSON.parse(response);
-//   console.log(response);   
-//   $('#sub_category').empty();
-//   $('#sub_category').append(`<option value="0" disabled selected>Select Sub Category*</option>`);
-//   response.forEach(element => {
-//       $('#sub_category').append(`<option value="${element['id']}">${element['pelayanan']}</option>`);
-//       });
-//   }
-//  });
-// });
-
-//  $('#sub_category').on('change', function () {
-//   let id = $(this).val();
-//  $('#id_doctor').empty();
-//   $('#id_doctor').append(`<option value="0" disabled selected>Processing...</option>`);
-//   $.ajax({
-//   type: 'GET',
-//   url: 'GetDoctor/' + id,
-//   success: function (response) {
-//   var response = JSON.parse(response);
-//   console.log(response);   
-//   $('#id_doctor').empty();
-//   $('#id_doctor').append(`<option value="0" disabled selected>Select Name Doctor*</option>`);
-//   response.forEach(element => {
-//       $('#id_doctor').append(`<option value="${element['id']}">${element['name']}</option>`);
-//       });
-//   }
-//  });
-//  });
-
-
-//  $('#id_doctor').on('change', function () {
-//   let id = $(this).val();
-//  $('#id_tarif').empty();
-//   $('#id_tarif').append(`<option value="0" disabled selected>Processing...</option>`);
-//   $.ajax({
-//   type: 'GET',
-//   url: 'GetTarif/' + id,
-//   success: function (response) {
-//   var response = JSON.parse(response);
-//   console.log(response);   
-//   $('#id_tarif').empty();
-//   $('#id_tarif').append(`<option value="0" disabled selected>Select Name tarif*</option>`);
-
-//    // Format nominal to Rupiah without decimals
-//    response.forEach(element => {
-//         let nominal = element['nominal'];
-        
-//         // Format the nominal as Rupiah without any decimal places
-//         let formattedNominal = new Intl.NumberFormat('id-ID', {
-//           style: 'currency',
-//           currency: 'IDR',
-//           minimumFractionDigits: 0, // No decimal places
-//           maximumFractionDigits: 0  // No decimal places
-//         }).format(nominal); // Format the number into Rupiah format
-        
-//         $('#id_tarif').append(`<option value="${element['id']}">${formattedNominal}</option>`);
-//       });
-//     }
-//   });
-// });
 // });
 
 

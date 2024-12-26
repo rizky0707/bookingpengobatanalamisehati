@@ -108,11 +108,12 @@
               </small>
             </div>
           </div>
+
                 <div class="col">
                   <div class="form-group">
                     <label for="jam">Jam</label>
-                    <input type="time" value="{{$edit->jam}}" name="jam" class="form-control" id="jam" placeholder="jam" step="3600" 
-                    @guest readonly @endguest>
+                    <input type="time" value="{{$edit->jam}}" name="jam" class="form-control" id="jam" placeholder="jam" step="3600" @guest readonly @endguest>
+                    <small id="jam" class="form-text text-dark">Contoh : 09:00 (Cek Jam Tersedia)</small>
                     {{-- @if(count($errors) > 0)
                     @foreach ($errors->all() as $error)
                     <small id="emailHelp" class="form-text text-warning">Category sudah ada / Category harus lebih dari 2 huruf</small>

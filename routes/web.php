@@ -152,4 +152,6 @@ Route::get('/path-to-get-pembayaran-count', function() {
 
 Route::get('/get-booking-schedule', [BookingController::class, 'getBookingSchedule']);
 
+Route::get('/check-time-availability', [BookingController::class, 'checkTimeAvailability']);
+
 
