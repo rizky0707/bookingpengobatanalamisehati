@@ -154,4 +154,5 @@ Route::get('/get-booking-schedule', [BookingController::class, 'getBookingSchedu
 
 Route::get('/check-time-availability', [BookingController::class, 'checkTimeAvailability']);
 
+Route::get('/get-booked-times', [BookingController::class, 'getBookedTimes']);
 

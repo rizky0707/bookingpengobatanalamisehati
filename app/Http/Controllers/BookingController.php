@@ -34,7 +34,7 @@ class BookingController extends Controller
             $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
             $bookings = Booking::whereBetween('created_at',[$start_date,$end_date])->get();
         } else {
-            $bookings = Booking::latest()->get();
+            $bookings = Booking::latest('updated_at')->get();
         }
         $bookings_countApp = Booking::where('status', 'pending')->whereDate('tanggal', Carbon::today())->count();
         $pembayarans_countApp = KomfirmasiPembayaran::where('status', 'checking')->count();
@@ -138,6 +138,20 @@ public function checkTimeAvailability(Request $request)
 
     return response()->json(['error' => false]);
 }
+
+public function getBookedTimes(Request $request)
+{
+    $tanggal = $request->input('tanggal');
+
+    // Contoh: Ambil data booking berdasarkan tanggal dari database
+    $bookedTimes = Booking::where('tanggal', $tanggal)->pluck('jam')->toArray();
+
+    return response()->json([
+        'date' => $tanggal,
+        'booked_times' => $bookedTimes,
+    ]);
+}
+
 
 
     public function print_booking()

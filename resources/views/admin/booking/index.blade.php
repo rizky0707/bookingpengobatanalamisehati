@@ -38,7 +38,7 @@
                 
                 </div>
                 <br>
-                <form action="{{route('booking.index')}}" method="GET">
+                {{-- <form action="{{route('booking.index')}}" method="GET">
                   <div class="row justify-content-center">
                       <label for="">Mulai</label>
                     <div class="col-md-2">
@@ -48,19 +48,19 @@
                     <div class="col-md-2">
                       <input type="date" class="form-control" name="end_date">
                     </div>
-                    {{-- <label for="">Status</label>
+                    <label for="">Status</label>
                     <div class="col-md-2">
                       <select class="form-control" name="end_date">
                         <option value="">Pending</option>
                         <option value="">Sucess</option>
                       </select>
-                    </div> --}}
+                    </div>
                     <div class="col-md-2">
                       <button class="btn btn-primary btn-sm" type="submit">Cari</button>
                       <a href="{{route('booking.index')}}" class="btn btn-danger btn-sm">Reset</a>
                   </div>
                   </div>
-                </form>
+                </form> --}}
             </p>
             <table id="example" class="table table-bordered table-responsive">
               <thead>

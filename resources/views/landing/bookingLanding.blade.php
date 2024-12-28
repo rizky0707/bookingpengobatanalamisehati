@@ -178,8 +178,8 @@
     <div class="form-group">
       <label for="name">Tanggal</label>
       {{-- <input type="date" name="tanggal" value="{{old('tanggal')}}" class="form-control" placeholder="tanggal"> --}}
-      <input type="date" name="tanggal" value="{{old('tanggal')}}" class="form-control" placeholder="tanggal" 
-           min="{{ \Carbon\Carbon::today()->toDateString() }}" 
+      <input type="date" id="tanggal" name="tanggal" value="{{old('tanggal')}}" class="form-control" placeholder="tanggal" 
+           min="{{ \Carbon\Carbon::today()->toDateString() }}"
            @guest readonly @endguest>
       @if($errors->has('tanggal'))
       <small id="emailHelp" class="form-text text-warning">{{ $errors->first('tanggal') }}</small>
@@ -198,14 +198,29 @@
       <div class="form-group">
         <label for="jam">Jam</label>
         <input 
-          type="time" 
-          id = "jam"
-          name="jam" 
-          value="{{ old('jam') }}" 
-          class="form-control" 
-          placeholder="jam" 
-          step="3600" 
-          @guest readonly @endguest> 
+  type="time" 
+  id="jam" 
+  name="jam" 
+  list="timeOptions" 
+  value="{{ old('jam') }}" 
+  class="form-control" 
+  placeholder="jam" 
+  step="3600" 
+  @guest readonly @endguest> 
+
+<datalist id="timeOptions">
+  <option value="09:00">
+  <option value="10:00">
+  <option value="11:00">
+  <option value="13:00">
+  <option value="14:00">
+  <option value="15:00">
+  <option value="16:00">
+  <option value="17:00">
+  <option value="19:00">
+  <option value="20:00">
+</datalist>
+
           <small id="jam" class="form-text text-dark">Contoh : 09:00 (Cek Jam Tersedia)</small>
           
         @if($errors->has('jam'))
@@ -333,6 +348,7 @@ $(document).ready(function() {
 
   // Menonaktifkan ESC key untuk modal
 
+  document.getElementById('tanggal').focus();
  
 $(document).ready(function() {
     $('input[name="tanggal"]').on('change', function() {
@@ -423,22 +439,101 @@ $('input[name="jam"]').on('change', function() {
         });
     });
 
-    $(document).ready(function() {
-  $('#jam').on('change', function() {
-    var selectedTime = $(this).val(); // Get the selected time
+    $(document).ready(function () {
+  $('#jam').on('change', function () {
+    var selectedTime = $(this).val(); // Ambil waktu yang dipilih
 
-    // Define business hours: 09:00 AM to 21:00 PM
+    // Tentukan jam operasional: 09:00 hingga 21:00
     var startTime = '09:00';
     var endTime = '21:00';
 
-    // Check if the selected time is outside business hours
+    // Tentukan jam istirahat
+    var breakTimes = [
+      { start: '12:00', end: '13:00' }, // Istirahat pertama
+      { start: '18:00', end: '19:00' }, // Istirahat kedua
+    ];
+
+    // Fungsi untuk memeriksa apakah waktu dalam rentang tertentu
+    function isInRange(time, rangeStart, rangeEnd) {
+      return time >= rangeStart && time < rangeEnd;
+    }
+
+    // Cek apakah waktu di luar jam operasional
     if (selectedTime < startTime || selectedTime >= endTime) {
-      // Show alert if time is outside working hours
-      alert("Pilihan di luar jam Operasional. Pilih Jam antara 09:00 and 21:00. (Cek Jadwal Booking!!)");
-      $(this).val(''); // Optionally clear the input if it's invalid
+      alert("Pilihan di luar jam operasional. Pilih jam antara 09:00 dan 21:00. (Cek Jadwal Booking!!)");
+      $(this).val(''); // Kosongkan input jika tidak valid
+      return;
+    }
+
+    // Cek apakah waktu berada dalam jam istirahat
+    for (var i = 0; i < breakTimes.length; i++) {
+      if (isInRange(selectedTime, breakTimes[i].start, breakTimes[i].end)) {
+        alert("Pilihan berada pada jam istirahat. Pilih waktu lain.");
+        $(this).val(''); // Kosongkan input jika tidak valid
+        return;
+      }
     }
   });
 });
+
+document.getElementById('jam').addEventListener('input', function () {
+    const allowedTimes = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00', '19:00', '20:00'];
+    
+    if (!allowedTimes.includes(this.value)) {
+        alert("Jam yang dipilih tidak valid. Silakan pilih jam yang tersedia.");
+        this.value = ''; // Reset input jika tidak valid
+    }
+});
+
+
+// $(document).ready(function () {
+//     // Event listener untuk perubahan tanggal
+//     $('input[name="tanggal"]').on('change', function () {
+//         var selectedDate = $(this).val(); // Tanggal yang dipilih
+
+//         // Kirim permintaan AJAX ke backend untuk mendapatkan jam yang telah dibooking
+//         $.ajax({
+//             type: 'GET',
+//             url: '/get-booked-times', // Endpoint backend yang mengembalikan jam yang telah dibooking
+//             data: { tanggal: selectedDate },
+//             success: function (response) {
+//                 if (response.booked_times) {
+//                     disableBookedTimes(response.booked_times);
+//                 }
+//             },
+//             error: function () {
+//                 alert('Gagal memuat data jam yang telah dibooking.');
+//             }
+//         });
+//     });
+
+//     // Fungsi untuk mendisable jam yang telah dibooking
+//     function disableBookedTimes(bookedTimes) {
+//         var timeInput = $('#jam'); // Input jam
+//         var allAvailableTimes = ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00", "19:00", "20:00"]; // Semua pilihan waktu
+
+//         // Bersihkan pilihan waktu sebelumnya
+//         timeInput.empty();
+
+//         // Tambahkan opsi waktu yang tersedia dan disable yang telah dibooking
+//         allAvailableTimes.forEach(function (time) {
+//             if (bookedTimes.includes(time)) {
+//                 // Tambahkan opsi yang disabled jika sudah dibooking
+//                 timeInput.append('<option value="' + time + '" disabled>' + time + ' (Sudah Dibooking)</option>');
+//             } else {
+//                 // Tambahkan opsi yang tersedia
+//                 timeInput.append('<option value="' + time + '">' + time + '</option>');
+//             }
+//         });
+//     }
+// });
+
+
+
+
+
+
+
 
 
 

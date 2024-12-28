@@ -112,7 +112,9 @@
                 <div class="col">
                   <div class="form-group">
                     <label for="jam">Jam</label>
-                    <input type="time" value="{{$edit->jam}}" name="jam" class="form-control" id="jam" placeholder="jam" step="3600" @guest readonly @endguest>
+                    <input type="time"
+                    id = "jam"
+                    value="{{$edit->jam}}" name="jam" class="form-control" id="jam" placeholder="jam" step="3600" @guest readonly @endguest>
                     <small id="jam" class="form-text text-dark">Contoh : 09:00 (Cek Jam Tersedia)</small>
                     {{-- @if(count($errors) > 0)
                     @foreach ($errors->all() as $error)
@@ -121,6 +123,7 @@
                     @endif --}}
                   </div>
                 </div>
+                
                   </div>
 
                   <div class="row">
@@ -186,52 +189,89 @@
   <script>
     
     $(document).ready(function() {
-        // Event listener saat link "Cek Jadwal Booking" diklik
-        $('a[data-toggle="modal"]').on('click', function(e) {
-            e.preventDefault();  // Mencegah link membuka halaman baru
-    
-            // Kirim request AJAX untuk mendapatkan jadwal dari server
-            $.ajax({
-                type: 'GET',
-                url: '/get-booking-schedule', // Endpoint untuk mengambil jadwal
-                success: function(response) {
-                    var scheduleTable = '';
-                    if (response && response.length > 0) {
-                        response.forEach(function(schedule) {
-                            var statusClass = (schedule.status === 'Penuh') ? 'text-danger' : 'text-success';
-                            
-                            scheduleTable += '<tr>';
-                            scheduleTable += '<td>' + schedule.date + '</td>';
-                            scheduleTable += '<td class="' + statusClass + '">' + schedule.status + '</td>';
-                            
-                            // Menambahkan daftar jam yang tersedia
-                            if (schedule.status === 'Tersedia' && schedule.available_times.length > 0) {
-                                var availableTimes = schedule.available_times.join(', ');
-                                scheduleTable += '<td>' + availableTimes + '</td>';
-                            } else {
-                                scheduleTable += '<td>Tidak ada waktu kosong</td>';
-                            }
-    
-                            scheduleTable += '</tr>';
-                        });
-    
-                        // Menampilkan data jadwal ke dalam tbody
-                        $('#bookingSchedule').html(scheduleTable);
-                    } else {
-                        // Jika tidak ada data
-                        $('#bookingSchedule').html('<tr><td colspan="3">Maaf, tidak ada jadwal yang tersedia.</td></tr>');
-                    }
-                },
-                error: function() {
-                    // Jika gagal mengambil data
-                    $('#bookingSchedule').html('<tr><td colspan="3">Gagal mengambil data jadwal.</td></tr>');
+    // Event listener saat link "Cek Jadwal Booking" diklik
+    $('a[data-toggle="modal"]').on('click', function(e) {
+        e.preventDefault();  // Mencegah link membuka halaman baru
+
+        // Kirim request AJAX untuk mendapatkan jadwal dari server
+        $.ajax({
+            type: 'GET',
+            url: '/get-booking-schedule', // Endpoint untuk mengambil jadwal
+            success: function(response) {
+                var scheduleTable = '';
+                if (response && response.length > 0) {
+                    response.forEach(function(schedule) {
+                        var statusClass = (schedule.status === 'Penuh') ? 'text-danger' : 'text-success';
+                        
+                        scheduleTable += '<tr>';
+                        scheduleTable += '<td>' + schedule.date + '</td>';
+                        scheduleTable += '<td class="' + statusClass + '">' + schedule.status + '</td>';
+                        
+                        // Menambahkan daftar jam yang tersedia
+                        if (schedule.status === 'Tersedia' && schedule.available_times.length > 0) {
+                            var availableTimes = schedule.available_times.join(', ');
+                            scheduleTable += '<td>' + availableTimes + '</td>';
+                        } else {
+                            scheduleTable += '<td>Tidak ada waktu kosong</td>';
+                        }
+
+                        scheduleTable += '</tr>';
+                    });
+
+                    // Menampilkan data jadwal ke dalam tbody
+                    $('#bookingSchedule').html(scheduleTable);
+                } else {
+                    // Jika tidak ada data
+                    $('#bookingSchedule').html('<tr><td colspan="3">Maaf, tidak ada jadwal yang tersedia.</td></tr>');
                 }
-            });
+            },
+            error: function() {
+                // Jika gagal mengambil data
+                $('#bookingSchedule').html('<tr><td colspan="3">Gagal mengambil data jadwal.</td></tr>');
+            }
         });
     });
-    </script>
-@endsection
-@section('script')
+});
 
+
+// Check if the selected time is already booked
+$('input[name="jam"]').on('change', function() {
+        var selectedDate = $('input[name="tanggal"]').val();
+        var selectedTime = $(this).val();
+
+        // Send an AJAX request to check if the time is available
+        $.ajax({
+            type: 'GET',
+            url: '/check-time-availability', // The route for checking time availability
+            data: {
+                tanggal: selectedDate,
+                jam: selectedTime
+            },
+            success: function(response) {
+                if (response.error) {
+                    alert(response.message); // Show alert if time is already booked
+                    $('input[name="jam"]').val(''); // Reset the time input
+                }
+            }
+        });
+    });
+
+    $(document).ready(function() {
+  $('#jam').on('change', function() {
+    var selectedTime = $(this).val(); // Get the selected time
+
+    // Define business hours: 09:00 AM to 21:00 PM
+    var startTime = '09:00';
+    var endTime = '21:00';
+
+    // Check if the selected time is outside business hours
+    if (selectedTime < startTime || selectedTime >= endTime) {
+      // Show alert if time is outside working hours
+      alert("Pilihan di luar jam Operasional. Pilih Jam antara 09:00 and 21:00. (Cek Jadwal Booking!!)");
+      $(this).val(''); // Optionally clear the input if it's invalid
+    }
+  });
+});
+    </script>
 @endsection
 
