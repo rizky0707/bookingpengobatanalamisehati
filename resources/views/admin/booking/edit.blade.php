@@ -99,7 +99,10 @@
               <div class="col">
             <div class="form-group">
               <label for="tanggal">Tanggal</label>
-              <input type="date" value="{{$edit->tanggal}}" name="tanggal" class="form-control" id="tanggal" placeholder="tanggal">
+              <input type="date" value="{{$edit->tanggal}}" name="tanggal" class="form-control" id="tanggal" 
+              min="{{ \Carbon\Carbon::today()->toDateString() }}"
+           @guest readonly @endguest
+              placeholder="tanggal">
               <small id="emailHelp" class="form-text text-warning">
                 <a href="#" data-toggle="modal" data-target="#scheduleModal">
                   
@@ -114,7 +117,25 @@
                     <label for="jam">Jam</label>
                     <input type="time"
                     id = "jam"
-                    value="{{$edit->jam}}" name="jam" class="form-control" id="jam" placeholder="jam" step="3600" @guest readonly @endguest>
+                    name="jam" 
+                    list="timeOptions"
+                    value="{{$edit->jam}}" 
+                    class="form-control"
+                     placeholder="jam" 
+                     step="3600" 
+                     @guest readonly @endguest>
+                     <datalist id="timeOptions">
+                      <option value="09:00">
+                      <option value="10:00">
+                      <option value="11:00">
+                      <option value="13:00">
+                      <option value="14:00">
+                      <option value="15:00">
+                      <option value="16:00">
+                      <option value="17:00">
+                      <option value="19:00">
+                      <option value="20:00">
+                    </datalist>
                     <small id="jam" class="form-text text-dark">Contoh : 09:00 (Cek Jam Tersedia)</small>
                     {{-- @if(count($errors) > 0)
                     @foreach ($errors->all() as $error)
@@ -256,22 +277,52 @@ $('input[name="jam"]').on('change', function() {
         });
     });
 
-    $(document).ready(function() {
-  $('#jam').on('change', function() {
-    var selectedTime = $(this).val(); // Get the selected time
+    $(document).ready(function () {
+  $('#jam').on('change', function () {
+    var selectedTime = $(this).val(); // Ambil waktu yang dipilih
 
-    // Define business hours: 09:00 AM to 21:00 PM
+    // Tentukan jam operasional: 09:00 hingga 21:00
     var startTime = '09:00';
     var endTime = '21:00';
 
-    // Check if the selected time is outside business hours
+    // Tentukan jam istirahat
+    var breakTimes = [
+      { start: '12:00', end: '13:00' }, // Istirahat pertama
+      { start: '18:00', end: '19:00' }, // Istirahat kedua
+    ];
+
+    // Fungsi untuk memeriksa apakah waktu dalam rentang tertentu
+    function isInRange(time, rangeStart, rangeEnd) {
+      return time >= rangeStart && time < rangeEnd;
+    }
+
+    // Cek apakah waktu di luar jam operasional
     if (selectedTime < startTime || selectedTime >= endTime) {
-      // Show alert if time is outside working hours
-      alert("Pilihan di luar jam Operasional. Pilih Jam antara 09:00 and 21:00. (Cek Jadwal Booking!!)");
-      $(this).val(''); // Optionally clear the input if it's invalid
+      alert("Pilihan di luar jam operasional. Pilih jam antara 09:00 dan 21:00. (Cek Jadwal Booking!!)");
+      $(this).val(''); // Kosongkan input jika tidak valid
+      return;
+    }
+
+    // Cek apakah waktu berada dalam jam istirahat
+    for (var i = 0; i < breakTimes.length; i++) {
+      if (isInRange(selectedTime, breakTimes[i].start, breakTimes[i].end)) {
+        alert("Pilihan berada pada jam istirahat. Pilih waktu lain.");
+        $(this).val(''); // Kosongkan input jika tidak valid
+        return;
+      }
     }
   });
 });
+
+document.getElementById('jam').addEventListener('input', function () {
+    const allowedTimes = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00', '19:00', '20:00'];
+    
+    if (!allowedTimes.includes(this.value)) {
+        alert("Jam yang dipilih tidak valid. Silakan pilih jam yang tersedia.");
+        this.value = ''; // Reset input jika tidak valid
+    }
+});
+
     </script>
 @endsection
 
